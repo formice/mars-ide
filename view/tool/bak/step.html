@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="../../../component/layui/css/layui.css" />
+		<link rel="stylesheet" href="../../../admin/css/pearStep.css" />
+		<link rel="stylesheet" href="../../../admin/css/pearForm.css" />
+		<link rel="stylesheet" href="../../../admin/css/pearButton.css"/>
+		<style>
+			.pear-container {
+				margin: 10px;
+				background-color: whitesmoke;
+			}
+		</style>
+	</head>
+	<body class="pear-container">
+		<div class="layui-card">
+			<div class="layui-card">
+				<div class="layui-card-body" style="padding-top: 40px;height: 100px;">
+					<div class="layui-carousel" id="stepForm" lay-filter="stepForm" style="margin: 0 auto;">
+						<div carousel-item>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="layui-card">
+			<div class="layui-card-body" style="padding-top: 40px;height: 50px;">
+				<!--<div class="layui-carousel"  style="margin: 0 auto;">
+                    <div carousel-item>
+
+                    </div>
+                </div>-->
+				<div class="layui-form-item">
+					<i class="layui-icon layui-icon-add-circle" style="font-size: 30px; color: #1E9FFF;float:right;"></i>
+					<label for="name" class="layui-form-label">
+						<span class="x-red">*</span>名称</label>
+					<div class="layui-input-inline" style="width:100px;">
+						<input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+
+					<label for="minNum" class="layui-form-label">
+						<span class="x-red">*</span>最小个数</label>
+					<div class="layui-input-inline" style="width:100px;">
+						<input type="text" id="minNum" name="minNum" required="" lay-verify="required" class="layui-input"></div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div class="layui-fluid">
+			<div class="layui-row layui-col-space10">
+				<div class="layui-col-md8">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							最近更新
+							<a lay-href="http://www.layui.com/doc/base/changelog.html" class="layui-a-tips">全部更新</a>
+						</div>
+						<div class="layui-card-body">body</div>
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="layui-card">
+						<div class="layui-card-header">便捷导航</div>
+						<div class="layui-card-body">
+							body
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-card">
+			<div class="layui-card-body" style="padding-top: 10px;height: 100px;width:100%;">
+				<div class="layui-row layui-col-space10">
+					<div class="layui-col-md10">
+						<div class="layui-card">
+							<a lay-href="http://www.layui.com/doc/base/changelog.html" class="layui-a-tips" style="float:right;">提交</a>
+							<div class="layui-card-body">
+								<div class="layui-form-item">
+									<label for="name" class="layui-form-label">
+										<span class="x-red">*</span>名称</label>
+									<div class="layui-input-inline" style="width:100px;">
+										<input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+
+									<label for="minNum" class="layui-form-label">
+										<span class="x-red">*</span>最小个数</label>
+									<div class="layui-input-inline" style="width:100px;">
+										<input type="text" id="minNum" name="minNum" required="" lay-verify="required" class="layui-input"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+
+
+
+		<script src="../../../component/layui/layui.js"></script>
+		<script>
+			layui.use(['form', 'pearStep'], function() {
+				var   $ = layui.$, form = layui.form, pearStep = layui.pearStep;
+
+				initSelect($ ,form,'type','tool_type')
+
+				pearStep.render({
+					elem: '#stepForm',
+					filter: 'stepForm',
+					width: '100%', //设置容器宽度
+					stepWidth: '750px',
+					height: '500px',
+					stepItems: [{
+						title: '基本信息'
+					},{
+						title: '输入项'
+					}, {
+						title: '输出项'
+					}, {
+						title: '参数'
+					}, {
+						title: '模板'
+					}]
+				});
+
+				pearStep.next('#stepForm');
+
+				form.on('submit(formStep)', function(data) {
+					alert(1);
+
+					$.ajax({
+						url:'http://localhost:8080/tool/add',
+						method:'post',
+						data:data.field,
+						dataType:'JSON',
+						success:function(res){
+							if(res.code='200'){
+								console.log(res);
+								//发异步，把数据提交给php
+								pearStep.next('#stepForm');
+							} else {
+								alert(res.msg);
+							}
+						},
+						error:function (data) {
+
+						}
+					}) ;
+
+					return false;
+				});
+
+				form.on('submit(formStep2)', function(data) {
+					pearStep.next('#stepForm');
+					return false;
+				});
+
+				$('.pre').click(function() {
+					pearStep.pre('#stepForm');
+					return false;
+				});
+
+				$('.next').click(function() {
+					step.next('#stepForm');
+				    return false;
+				});
+			});
+
+			function initSelect($,form,ele,group){
+					$.ajax({
+						//拼接下拉选项
+						url:'http://localhost:8080/common/dic/group',
+						method:'post',
+						data: {'group':group},
+						dataType:'JSON',
+						success: function (res) {
+							if(res.code='200') {
+								var data = res.data;
+								for (var i in data) {
+									$("#"+ele).append('<option value="' + data[i].code + '">' + data[i].name + '</option>');
+								}
+								form.render('select');
+							}
+						}
+					});
+			}
+
+
+		</script>
+	</body>
+</html>
