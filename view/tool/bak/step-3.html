@@ -3,22 +3,14 @@
 	<head>
 		<meta charset="utf-8">
 		<title></title>
-		<link rel="stylesheet" href="../../component/layui/css/layui.css" />
-		<link rel="stylesheet" href="../../admin/css/pearStep.css" />
-		<link rel="stylesheet" href="../../admin/css/pearForm.css" />
-		<link rel="stylesheet" href="../../admin/css/pearButton.css"/>
-		<script type="text/javascript" src="../../js/common/base.js"></script>
+		<link rel="stylesheet" href="../../../component/layui/css/layui.css" />
+		<link rel="stylesheet" href="../../../admin/css/pearStep.css" />
+		<link rel="stylesheet" href="../../../admin/css/pearForm.css" />
+		<link rel="stylesheet" href="../../../admin/css/pearButton.css"/>
 		<style>
 			.pear-container {
 				margin: 10px;
 				background-color: whitesmoke;
-			}
-
-			.layui-carousel>[carousel-item] {
-				position: relative;
-				width: 100%;
-				height: 60px;
-				overflow: hidden;
 			}
 
 			.layui-card-body {
@@ -44,8 +36,7 @@
 				float: left;
 				display: block;
 				/*padding: 9px 15px;*/
-				/*width: 60px;*/
-				width:auto;
+				width: 60px;
 				font-weight: 200;
 				line-height: 10px;
 				text-align: left;
@@ -53,7 +44,6 @@
 				margin-top: 10px;
 				margin-bottom: 10px;
 				margin-left : 10px;
-				display:inline-block !important; display:inline;
 			}
 
 			.layui-input {
@@ -82,26 +72,8 @@
 				font-style: inherit;
 				font-weight: inherit;
 				outline: 0;
-				/*margin-top: 10px;*/
-				margin-left:10px;
+				margin-top: 10px;
 				margin-bottom: 10px;
-			}
-
-			.layui-icon-close:hover {
-				transform: scale(1.3);
-				-webkit-transform: scale(1.3);
-				-moz-transform: scale(1.3);
-				-o-transform: scale(1.3);
-				-ms-transform: scale(1.3);
-			}
-
-
-			.layui-icon-ok:hover {
-				transform: scale(1.3);
-				-webkit-transform: scale(1.3);
-				-moz-transform: scale(1.3);
-				-o-transform: scale(1.3);
-				-ms-transform: scale(1.3);
 			}
 		</style>
 	</head>
@@ -111,19 +83,74 @@
 				<div class="layui-card-body" style="padding-top: 60px;height:120px">
 					<div class="layui-carousel" id="stepForm" lay-filter="stepForm" style="margin: 0 auto;">
 						<div carousel-item id="carousel-item">
+							<div>
+								<form class="layui-form" action="javascript:void(0);" style="margin: 0 auto;max-width: 460px;padding-top: 60px;">
+									<div class="layui-form-item">
+										<label class="layui-form-label">名称:</label>
+										<div class="layui-input-block">
+											<input type="text" name="name" placeholder="请填写工具名称" class="layui-input" lay-verify="number" required />
+
+										</div>
+									</div>
+
+									<div class="layui-form-item">
+										<label class="layui-form-label">类型:</label>
+										<div class="layui-input-block">
+											<select id="type" name="type" lay-verify="required">
+												<!--<option value="1" selected>保险箱</option>
+												<option value="2">现金</option>-->
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">网站:</label>
+										<div class="layui-input-block">
+											<input type="text" name="website" placeholder="请填写工具网址" class="layui-input" lay-verify="number" required />
+
+										</div>
+									</div>
+
+									<div class="layui-form-item">
+										<label class="layui-form-label">使用帮助:</label>
+										<div class="layui-input-block">
+											<textarea name="help" placeholder="请填写使用帮助" value="" class="layui-textarea"></textarea>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-input-block">
+											<button class="pear-btn pear-btn-success" lay-submit lay-filter="formStep">
+												&emsp;下一步&emsp;
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
 							<div id="step2">
 								<div style="text-align: left;margin-top: 5px;">
 									<button class="pear-btn pear-btn-success" id="btn-add">添加输入项</button>
-									<button class="pear-btn pear-btn-success next" id="btn-next">下一步</button>
+									<button class="pear-btn pear-btn-success next">下一步</button>
 								</div>
 							</div>
+							<!--<div>
+								<div style="text-align: center;margin-top: 90px;">
+									<i class="layui-icon layui-circle" style="color: white;font-size:30px;font-weight:bold;background: #52C41A;padding: 20px;line-height: 80px;">&#xe605;</i>
+									<div style="font-size: 24px;color: #333;font-weight: 500;margin-top: 30px;">
+										入款成功
+									</div>
+									<div style="font-size: 14px;color: #666;margin-top: 20px;">预计两小时到账</div>
+								</div>
+								<div style="text-align: center;margin-top: 50px;">
+									<button class="pear-btn pear-btn-success next">再入一笔</button>
+									<button class="pear-btn pear-btn-success">查看账单</button>
+								</div>
+							</div>-->
 						</div>
 						<div class="layui-card" id="card-add" style="display:none">
 							<!--<div class="layui-card-body" style="padding-top: 60px;height: 50px;">-->
 							<div class="layui-card-body">
-								<form id="form" class="layui-form" action="javascript:void(0);">
-									<i class="layui-icon layui-icon-ok" id="btn-submit" lay-submit lay-filter="add" style="font-size: 30px; color: #1E9FFF;float:right;vertical-align: middle;"></i>
-									<i class="layui-icon layui-icon-close" id="btn-cancel" lay-submit lay-filter="del" style="font-size: 30px; color: #ff0000;float:right;vertical-align: middle;"></i>
+								<form class="layui-form" action="javascript:void(0);">
+									<i class="layui-icon layui-icon-ok" lay-submit lay-filter="add" style="font-size: 40px; color: #1E9FFF;float:right;vertical-align: middle;"></i>
+									<i class="layui-icon layui-icon-close" lay-submit lay-filter="del" style="font-size: 40px; color: #ff0000;float:right;vertical-align: middle;"></i>
 									<input type="text"  style="display:none" id="toolId" name="toolId" class="layui-input"/>
 									<input type="text" style="display:none" id="cate" name="cate" value="16" class="layui-input"/>
 									<div class="layui-form-item" style="margin-top:10px;">
@@ -146,12 +173,15 @@
 											<span class="x-red">*</span>类型</label>
 										<div class="layui-input-inline" style="width:100px;">
 											<select id="input-type" name="type" class="valid">
+												<!--<option value="7">文件</option>-->
 											</select>
 										</div>
 										<label for="input-fileFormat" class="layui-form-label">
 											<span class="x-red">*</span>文件格式</label>
 										<div class="layui-input-inline" style="width:100px;">
 											<select id="input-fileFormat" name="fileFormat" class="valid">
+												<!--<option value="8">fasta</option>
+												<option value="9">fa</option>-->
 											</select>
 										</div>
 
@@ -229,14 +259,20 @@
 		</div>
 
 
-		<script src="../../component/layui/layui.js"></script>
+		<script src="../../../component/layui/layui.js"></script>
 		<script>
 			layui.use(['form', 'pearStep','element'], function() {
 				var   $ = layui.$, form = layui.form, pearStep = layui.pearStep;
+				var element = layui.element;
+				initSelect($ ,form,'type','tool_type');
+
 				initSelect($ ,form,'input-type','tool_input_and_output_type');
+
 				initSelect($ ,form,'input-fileFormat','tool_input_and_output_file_format');
+
 				initSelect($ ,form,'input-prefixSplitSymbol','tool_input_and_output_prefix_split_symbol');
-				$('#toolId').val(getQueryVariable("toolId"));
+
+
 
 				pearStep.render({
 					elem: '#stepForm',
@@ -257,20 +293,37 @@
 					}]
 				});
 
-				$('.lay-step').children().eq(1).children().eq(1).addClass("step-item-head-active");
+				form.on('submit(formStep)', function(data) {
+					alert(1);
 
-				//监听提交
-				$('#btn-cancel').click(function () {
-					$('#card-add').hide();
+					$.ajax({
+						url:'http://localhost:8080/tool/add',
+						method:'post',
+						data:data.field,
+						dataType:'JSON',
+						success:function(res){
+							if(res.code='200'){
+								console.log(res);
+								//发异步，把数据提交给php
+								pearStep.next('#stepForm');
+								$('#toolId').val(res.data);
+								$('#carousel-item').css("height","50px");
+							} else {
+								alert(res.msg);
+							}
+						},
+						error:function (data) {
 
-					//$('#form').not('#toolId, #cate')[0].reset();
-					//$('#form')[0].reset();
-				})
-				/*form.on('submit(del)',function(data) {
-					$('#card-add').hide();
-					$('#form')[0].reset();
-				});*/
+						}
+					}) ;
 
+					return false;
+				});
+
+				form.on('submit(formStep2)', function(data) {
+					pearStep.next('#stepForm');
+					return false;
+				});
 
 				//监听提交
 				form.on('submit(add)',function(data) {
@@ -284,7 +337,8 @@
 								console.log(res);
 								//发异步，把数据提交给php
 								$('#card-add').hide();
-								//$('#form')[0].reset();
+
+								//$('#card-list').show();
 
 								$.ajax({
 									url:'http://localhost:8080/tool/inputAndOutput/pagelist',
@@ -300,35 +354,35 @@
 											$(res.data).each(function () {
 												$('#stepForm').append(
 														"<div class=\"layui-card\" id=\"card-list-\""+this.id+">"+
-														"<div id=\"card-list-body\" class=\"layui-card-body\" style=\"padding-top: 0px;height: 50px;margin:0 auto;overflow: hidden\">"+
+														"<div id=\"card-list-body\" class=\"layui-card-body\" style=\"padding-top: 0px;height: 80px;\">"+
 														"<div class=\"layui-form-item\" style=\"margin-top:10px;\">\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">名称：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.name+"</label></div>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:100px;\"><label class=\"layui-normal-label\">"+this.name+"</label></div>\n" +
 														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">最小个数：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.minNum+"</label></div>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:100px;\"><label class=\"layui-normal-label\">"+this.minNum+"</label></div>\n" +
 														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">最大个数：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.maxNum+"</label></div>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:100px;\"><label class=\"layui-normal-label\">"+this.maxNum+"</label></div>\n" +
 														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">类型：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.type+"</label></div>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:100px;\"><label class=\"layui-normal-label\">"+this.type+"</label></div>\n" +
 														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">文件格式：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.fileFormat+"</label></div>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:100px;\"><label class=\"layui-normal-label\">"+this.fileFormat+"</label></div>\n" +
 														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">前缀：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.prefix+"</label></div>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:100px;\"><label class=\"layui-normal-label\">"+this.prefix+"</label></div>\n" +
 														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">分隔符：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.prefixSplitSymbol+"</label></div>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:100px;\"><label class=\"layui-normal-label\">"+this.fileSplitSymbol+"</label></div>\n" +
 														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">描述：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.desc+"</label></div>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:100px;\"><label class=\"layui-normal-label\">"+this.desc+"</label></div>\n" +
 
 														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">是否必须：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.isMust+"</label></div>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:100px;\"><label class=\"layui-normal-label\">"+this.isMust+"</label></div>\n" +
 
 														"\t\t\t\t\t\t\t\t</div>"+
 														"</div>"+
@@ -357,7 +411,7 @@
 					return false;
 				});
 
-				/*$('.pre').click(function() {
+				$('.pre').click(function() {
 					pearStep.pre('#stepForm');
 					return false;
 				});
@@ -365,15 +419,17 @@
 				$('.next').click(function() {
 					step.next('#stepForm');
 				    return false;
-				});*/
+				});
 
 				$('#btn-add').click(function () {
 					$('#card-add').show();
 				});
 
-				$('#btn-next').click(function () {
-					window.location.href = "step-3.html?toolId="+getQueryVariable("toolId");
+				//监听折叠
+				element.on('collapse(test)', function(data){
+					layer.msg('展开状态：'+ data.show);
 				});
+
 
 			});
 
@@ -395,6 +451,9 @@
 						}
 					});
 			}
+
+
+
 		</script>
 	</body>
 </html>

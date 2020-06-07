@@ -89,7 +89,7 @@
 									<div class="layui-form-item">
 										<label class="layui-form-label">名称:</label>
 										<div class="layui-input-block">
-											<input type="text" name="name" placeholder="请填写工具名称" class="layui-input" lay-verify="number" required />
+											<input type="text" name="name" placeholder="请填写工具名称" class="layui-input" lay-verify="required" required />
 
 										</div>
 									</div>
@@ -106,7 +106,7 @@
 									<div class="layui-form-item">
 										<label class="layui-form-label">网站:</label>
 										<div class="layui-input-block">
-											<input type="text" name="website" placeholder="请填写工具网址" class="layui-input" lay-verify="number" required />
+											<input type="text" name="website" placeholder="请填写工具网址" class="layui-input" lay-verify="required" required />
 
 										</div>
 									</div>
@@ -183,7 +183,7 @@
 					return false;
 				});
 
-				form.on('submit(formStep2)', function(data) {
+				/*form.on('submit(formStep2)', function(data) {
 					pearStep.next('#stepForm');
 					return false;
 				});
@@ -198,7 +198,7 @@
 				$('.next').click(function() {
 					step.next('#stepForm');
 				    return false;
-				});
+				});*/
 
 			});
 

@@ -113,7 +113,7 @@
 						<div carousel-item id="carousel-item">
 							<div id="step2">
 								<div style="text-align: left;margin-top: 5px;">
-									<button class="pear-btn pear-btn-success" id="btn-add">添加输入项</button>
+									<button class="pear-btn pear-btn-success" id="btn-add">添加参数</button>
 									<button class="pear-btn pear-btn-success next" id="btn-next">下一步</button>
 								</div>
 							</div>
@@ -125,7 +125,6 @@
 									<i class="layui-icon layui-icon-ok" id="btn-submit" lay-submit lay-filter="add" style="font-size: 30px; color: #1E9FFF;float:right;vertical-align: middle;"></i>
 									<i class="layui-icon layui-icon-close" id="btn-cancel" lay-submit lay-filter="del" style="font-size: 30px; color: #ff0000;float:right;vertical-align: middle;"></i>
 									<input type="text"  style="display:none" id="toolId" name="toolId" class="layui-input"/>
-									<input type="text" style="display:none" id="cate" name="cate" value="16" class="layui-input"/>
 									<div class="layui-form-item" style="margin-top:10px;">
 
 										<label for="name" class="layui-form-label">
@@ -133,31 +132,13 @@
 										<div class="layui-input-inline" style="width:100px;">
 											<input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
 
-										<label for="minNum" class="layui-form-label">
-											<span class="x-red">*</span>最小个数</label>
-										<div class="layui-input-inline" style="width:100px;">
-											<input type="text" id="minNum" name="minNum" required="" lay-verify="required" class="layui-input"></div>
-
-										<label for="minNum" class="layui-form-label">
-											<span class="x-red">*</span>最大个数</label>
-										<div class="layui-input-inline" style="width:100px;">
-											<input type="text" id="maxNum" name="maxNum" required="" lay-verify="required" class="layui-input"></div>
 										<label for="input-type" class="layui-form-label">
 											<span class="x-red">*</span>类型</label>
 										<div class="layui-input-inline" style="width:100px;">
 											<select id="input-type" name="type" class="valid">
 											</select>
 										</div>
-										<label for="input-fileFormat" class="layui-form-label">
-											<span class="x-red">*</span>文件格式</label>
-										<div class="layui-input-inline" style="width:100px;">
-											<select id="input-fileFormat" name="fileFormat" class="valid">
-											</select>
-										</div>
 
-									</div>
-
-									<div class="layui-form-item">
 										<label for="prefix" class="layui-form-label">
 											<!--<span class="x-red">*</span>-->前缀</label>
 										<div class="layui-input-inline" style="width:100px;">
@@ -171,11 +152,25 @@
 											</select>
 										</div>
 
+									</div>
+
+									<div class="layui-form-item">
+
+										<label for="defaultValue" class="layui-form-label">默认值</label>
+										<div class="layui-input-inline" style="width:100px;">
+											<input type="text" id="defaultValue" name="defaultValue" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+
 										<label for="desc" class="layui-form-label">
 											<span class="x-red">*</span>描述</label>
 										<div class="layui-input-inline" style="width:100px;">
 											<input type="text" id="desc" name="desc" required="" lay-verify="required" class="layui-input"></div>
-										<div class="layui-input-inline" style="width:100px;margin-left:70px">
+
+										<label for="isUseQuotationMarks" class="layui-form-label" style="width:100px;margin-left:30px">
+											<span class="x-red">*</span>是否使用引号</label>
+										<div class="layui-input-inline">
+											<input type="checkbox" name="isUseQuotationMarks" value="1"  lay-text="使用|不使用"  checked="" lay-skin="switch"></div>
+
+										<div class="layui-input-inline" style="width:100px;margin-left:10px">
 											<input type="checkbox" name="isMust" value="1" lay-skin="primary" title="必选项" checked="true">
 										</div>
 									</div>
@@ -185,34 +180,34 @@
 						</div>
 
 						<!--<div class="layui-card" id="card-list">
-							<div id="card-list-body" class="layui-card-body" style="padding-top: 0px;height: 80px;">
+							<div id="card-list-body" class="layui-card-body" style="padding-top: 0px;height: 50px;margin:0 auto;overflow: hidden">
 								<div class="layui-form-item" style="margin-top:10px;">
 									<label class="layui-normal-label">名称：</label>
-									<div class="layui-input-inline" style="width:100px;"><label class="layui-normal-label">名称</label></div>
+									<div class="layui-input-inline" style="width:50px;"><label class="layui-normal-label">名称</label></div>
 
 									<label class="layui-normal-label">最小个数：</label>
-									<div class="layui-input-inline" style="width:100px;"><label class="layui-normal-label">最小个数</label></div>
+									<div class="layui-input-inline" style="width:50px;"><label class="layui-normal-label">最小个数</label></div>
 
 									<label class="layui-normal-label">最大个数：</label>
-									<div class="layui-input-inline" style="width:100px;"><label class="layui-normal-label">最大个数</label></div>
+									<div class="layui-input-inline" style="width:50px;"><label class="layui-normal-label">最大个数</label></div>
 
 									<label class="layui-normal-label">类型：</label>
-									<div class="layui-input-inline" style="width:100px;"><label class="layui-normal-label">类型</label></div>
+									<div class="layui-input-inline" style="width:50px;"><label class="layui-normal-label">类型</label></div>
 
 									<label class="layui-normal-label">文件格式：</label>
-									<div class="layui-input-inline" style="width:100px;"><label class="layui-normal-label">文件格式</label></div>
+									<div class="layui-input-inline" style="width:50px;"><label class="layui-normal-label">文件格式</label></div>
 
 									<label class="layui-normal-label">前缀：</label>
-									<div class="layui-input-inline" style="width:100px;"><label class="layui-normal-label">前缀</label></div>
+									<div class="layui-input-inline" style="width:50px;"><label class="layui-normal-label">前缀</label></div>
 
 									<label class="layui-normal-label">分隔符：</label>
-									<div class="layui-input-inline" style="width:100px;"><label class="layui-normal-label">分隔符</label></div>
+									<div class="layui-input-inline" style="width:50px;"><label class="layui-normal-label">分隔符</label></div>
 
 									<label class="layui-normal-label">描述：</label>
-									<div class="layui-input-inline" style="width:100px;"><label class="layui-normal-label">描述</label></div>
+									<div class="layui-input-inline" style="width:50px;"><label class="layui-normal-label">描述</label></div>
 
 									<label class="layui-normal-label">是否必须：</label>
-									<div class="layui-input-inline" style="width:100px;"><label class="layui-normal-label">是否必须</label></div>
+									<div class="layui-input-inline" style="width:50px;"><label class="layui-normal-label">是否必须</label></div>
 								</div>
 
 								<div class="layui-form-item" style="margin-top:10px;">
@@ -233,8 +228,7 @@
 		<script>
 			layui.use(['form', 'pearStep','element'], function() {
 				var   $ = layui.$, form = layui.form, pearStep = layui.pearStep;
-				initSelect($ ,form,'input-type','tool_input_and_output_type');
-				initSelect($ ,form,'input-fileFormat','tool_input_and_output_file_format');
+				initSelect($ ,form,'input-type','tool_parameter_type');
 				initSelect($ ,form,'input-prefixSplitSymbol','tool_input_and_output_prefix_split_symbol');
 				$('#toolId').val(getQueryVariable("toolId"));
 
@@ -258,6 +252,8 @@
 				});
 
 				$('.lay-step').children().eq(1).children().eq(1).addClass("step-item-head-active");
+				$('.lay-step').children().eq(2).children().eq(1).addClass("step-item-head-active");
+				$('.lay-step').children().eq(3).children().eq(1).addClass("step-item-head-active");
 
 				//监听提交
 				$('#btn-cancel').click(function () {
@@ -275,7 +271,7 @@
 				//监听提交
 				form.on('submit(add)',function(data) {
 					$.ajax({
-						url:'http://localhost:8080/tool/addInputAndOutput',
+						url:'http://localhost:8080/tool/addParameter',
 						method:'post',
 						data:data.field,
 						dataType:'JSON',
@@ -287,9 +283,9 @@
 								//$('#form')[0].reset();
 
 								$.ajax({
-									url:'http://localhost:8080/tool/inputAndOutput/pagelist',
+									url:'http://localhost:8080/tool/parameter/pagelist',
 									method:'post',
-									data:{cate:'16',toolId:$('#toolId').val(),pageNum:1,pageSize:10},
+									data:{toolId:$('#toolId').val(),pageNum:1,pageSize:10},
 									dataType:'JSON',
 									success:function(res){
 										if(res.code='200'){
@@ -305,17 +301,8 @@
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">名称：</label>\n" +
 														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.name+"</label></div>\n" +
 														"\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">最小个数：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.minNum+"</label></div>\n" +
-														"\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">最大个数：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.maxNum+"</label></div>\n" +
-														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">类型：</label>\n" +
 														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.type+"</label></div>\n" +
-														"\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">文件格式：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.fileFormat+"</label></div>\n" +
 														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">前缀：</label>\n" +
 														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.prefix+"</label></div>\n" +
@@ -323,8 +310,16 @@
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">分隔符：</label>\n" +
 														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.prefixSplitSymbol+"</label></div>\n" +
 														"\n" +
+														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">默认值：</label>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.defaultValue+"</label></div>\n" +
+
+														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">描述：</label>\n" +
 														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.desc+"</label></div>\n" +
+
+														"\n" +
+														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">是否使用引号：</label>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.isUseQuotationMarks+"</label></div>\n" +
 
 														"\n" +
 														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">是否必须：</label>\n" +
@@ -372,7 +367,7 @@
 				});
 
 				$('#btn-next').click(function () {
-					window.location.href = "step-3.html?toolId="+getQueryVariable("toolId");
+					window.location.href = "step-5.html?toolId="+getQueryVariable("toolId");
 				});
 
 			});
