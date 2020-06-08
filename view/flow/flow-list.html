@@ -5,7 +5,6 @@
 		<title></title>
 		<link href="../../component/layui/css/layui.css" rel="stylesheet" />
 		<link href="../../admin/css/pearCommon.css" rel="stylesheet" />
-		<script type="text/javascript" src="../../js/common/base.js"></script>
 	</head>
 	<body>
 		<body class="pear-container">
@@ -17,15 +16,7 @@
 		                    <div class="layui-input-inline">
 		                        <input type="text" name="name" placeholder="" class="layui-input">
 		                    </div>
-		                    <label class="layui-form-label">类型</label>
-		                    <div class="layui-input-inline">
-		                        <!--<input type="text" id="type" name="type" placeholder="" class="layui-input">-->
-								<select id="type" name="type" placeholder="请选择">
-									<!--<option value="1" selected>保险箱</option>
-                                    <option value="2">现金</option>-->
-								</select>
-		                    </div>
-		                    <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="user-query">
+		                    <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="query">
 		                        <i class="layui-icon layui-icon-search"></i>
 		                        查询
 		                    </button>
@@ -39,29 +30,25 @@
 		    </div>
 		    <div class="layui-card">
 		        <div class="layui-card-body">
-		            <table id="user-table" lay-filter="user-table"></table>
+		            <table id="table" lay-filter="table"></table>
 		        </div>
 		    </div>
 		</body>
 
-		<script type="text/html" id="user-toolbar">
+		<script type="text/html" id="toolbar">
 		    <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="add">
 		        <i class="layui-icon layui-icon-add-1"></i>
 		        新增
 		    </button>
-		    <!--<button class="pear-btn pear-btn-danger pear-btn-md" lay-event="batchRemove">
-		        <i class="layui-icon layui-icon-delete"></i>
-		        删除
-		    </button>-->
 		</script>
 		
-		<script type="text/html" id="user-bar">
-		    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i></button>
-		    <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="remove"><i class="layui-icon layui-icon-delete"></i></button>
+		<script type="text/html" id="bar">
+		    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-play"></i></button>
+		    <!--<button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="remove"><i class="layui-icon layui-icon-delete"></i></button>-->
 		</script>
 		
-		<script type="text/html" id="user-enable">
-		    <input type="checkbox" name="enable" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="user-enable" checked = "{{ d.enable == 0 ? 'true' : 'false' }}">
+		<script type="text/html" id="enable">
+		    <input type="checkbox" name="enable" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="enable" checked = "{{ d.enable == 0 ? 'true' : 'false' }}">
 		</script>
 		
 		<script type="text/html" id="user-sex">
@@ -91,32 +78,27 @@
 		        let form = layui.form;
 		        let $ = layui.jquery;
 				var pearTab = layui.pearTab;
-
-				initSelect($ ,form,'type','tool_type');
 		
 		        let MODULE_PATH = "operate/";
 		
 		        let cols = [
 		            [
-		                /*{type:'checkbox'},*/
+						{title: '序号', field: 'id', align:'center'},
 		                {title: '名称', field: 'name', align:'center', width:120},
-		                {title: '类型', field: 'type', align:'center'},
-		                /*{title: '类别', field: 'cate', align:'center', width:80},*/
-		                {title: '主页', field: 'website', align:'center'},
-		                {title: '帮助', field: 'help', align:'center'},
+		                {title: '描述', field: 'desc', align:'center'},
 						{title: '创建时间', field: 'createTime', align:'center'},
-						{title: '操作', toolbar: '#user-bar', align:'center', width:130}
+						{title: '操作', toolbar: '#bar', align:'center', width:130}
 		            ]
 		        ]
 		
 		        table.render({
-		            elem: '#user-table',
-		            url: 'http://localhost:8080/tool/base/pagelist',
+		            elem: '#table',
+		            url: 'http://localhost:8080/flow/pagelist',
 		            page: true ,
 					method:'post',
 		            cols: cols ,
 		            skin: 'line',
-		            toolbar: '#user-toolbar',
+		            toolbar: '#toolbar',
 		            defaultToolbar: [{
 		                layEvent: 'refresh',
 		                icon: 'layui-icon-refresh',
@@ -131,7 +113,7 @@
 					}
 		        });
 		
-		        table.on('tool(user-table)', function(obj){
+		        table.on('tool(table)', function(obj){
 		            if(obj.event === 'remove'){
 		                window.remove(obj);
 		            } else if(obj.event === 'edit'){
@@ -139,7 +121,7 @@
 		            }
 		        });
 		
-		        table.on('toolbar(user-table)', function(obj){
+		        table.on('toolbar(table)', function(obj){
 		            if(obj.event === 'add'){
 		                window.add();
 		            } else if(obj.event === 'refresh'){
@@ -149,12 +131,12 @@
 		            }
 		        });
 		
-		        form.on('submit(user-query)', function(data){
-		            table.reload('user-table',{where:data.field})
+		        form.on('submit(query)', function(data){
+		            table.reload('table',{where:data.field})
 		            return false;
 		        });
 		
-		        form.on('switch(user-enable)', function(obj){
+		        form.on('switch(enable)', function(obj){
 		            layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
 		        });
 		
@@ -236,7 +218,7 @@
 		        }
 		
 		        window.refresh = function(param){
-		            table.reload('user-table');
+		            table.reload('table');
 		        }
 		    })
 		</script>

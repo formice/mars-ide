@@ -8,39 +8,11 @@
 	},
 	{
 		"id": 4,
-		"title": "系统管理",
+		"title": "工作流",
 		"icon": "layui-icon layui-icon-set-fill",
-		"type": 0,
-		"href": "",
-		"spread": true,
-		"children": [{
-				"id": 41,
-				"title": "用户管理",
-				"icon": "layui-icon layui-icon-username",
-				"type": 1,
-				"openType": "_iframe",
-				"href": "view/system/user.html",
-				"spread": true
-			},
-			{
-				"id": 42,
-				"title": "角色管理",
-				"icon": "layui-icon layui-icon-user",
-				"type": 1,
-				"openType": "_iframe",
-				"href": "view/system/role.html",
-				"spread": true
-			},
-			{
-				"id": 43,
-				"title": "权限管理",
-				"icon": "layui-icon layui-icon-user",
-				"type": 1,
-				"openType": "_iframe",
-				"href": "view/system/power.html",
-				"spread": true
-			}
-		]
+		"type": 1,
+		"href": "view/flow/flow-list.html",
+		"spread": true
 	},
 	{
 		"id": 2,
