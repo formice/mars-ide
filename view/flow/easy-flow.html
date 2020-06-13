@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)http://xiaoka2017.gitee.io/easy-flow/ -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>easy-flow</title>
+    <style>body {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background: #E0E3E7;
+        height: 20px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }</style>
+    <link href="./easy-flow_files/app.4cc54d85e9621c4d3c6ef9980ca33440.css" rel="stylesheet">
+</head>
+<body class="">
+<div id="app">
+    <div style="height: calc(100vh);">
+        <div class="el-row">
+            <div class="el-col el-col-24">
+                <div class="ef-tooltar"><a class="el-link el-link--primary"><!----><span
+                        class="el-link--inner">流程B</span><!----></a>
+                    <div class="el-divider el-divider--vertical"></div>
+                    <button type="button" class="el-button el-button--text el-button--large"><!----><i
+                            class="el-icon-delete"></i><!----></button>
+                    <div style="float: right; margin-right: 5px;">
+                        <button type="button" class="el-button el-button--default el-button--mini is-plain is-round">
+                            <!----><i class="el-icon-document"></i><span>流程信息</span></button>
+                        <button type="button" class="el-button el-button--default el-button--mini is-plain is-round">
+                            <!----><i class="el-icon-refresh"></i><span>切换流程A</span></button>
+                        <button type="button" class="el-button el-button--default el-button--mini is-plain is-round">
+                            <!----><i class="el-icon-refresh"></i><span>切换流程B</span></button>
+                        <button type="button" class="el-button el-button--default el-button--mini is-plain is-round">
+                            <!----><i class="el-icon-refresh"></i><span>切换流程C</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; height: calc(100% - 47px);">
+            <div style="width: 230px; border-right: 1px solid rgb(220, 227, 232);">
+                <div class="flow-menu">
+                    <div><span class="ef-node-pmenu"><i class="el-icon-caret-bottom"></i>公共工具</span>
+                        <ul class="ef-node-menu-ul">
+                            <div>
+                               <li type="timer" class="ef-node-menu-li"><i class="el-icon-time"></i> 数据接入</li>
+                                <li type="task" class="ef-node-menu-li"><i class="el-icon-odometer"></i> 接口调用</li>
+                                <li type="task" class="ef-node-menu-li"><i class="el-icon-odometer"></i> 接口调11</li>
+                            </div>
+                        </ul>
+                    </div>
+                    <div><span class="ef-node-pmenu"><i class="el-icon-caret-bottom"></i>&nbsp;私有工具</span>
+                        <ul class="ef-node-menu-ul">
+                            <div>
+                                <!--<li type="end" class="ef-node-menu-li" draggable="false"><i class="el-icon-caret-right"></i> 流程结束</li>
+                                <li type="over" class="ef-node-menu-li"><i class="el-icon-shopping-cart-full"></i> 数据清理</li>-->
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="efContainer" class="container" style="cursor: move;">
+                <div style="position: absolute; top: 2000px; left: 2000px;">&nbsp;</div>
+                <svg style="position:absolute;left:188.5px;top:110.45419468301849px" width="164"
+                     height="125.37913865031486" pointer-events="none" position="absolute" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg" class="jtk-connector">
+                    <path d="M 0 121.33333333333334 C 50 111.33333333333334 111 10 161 0 "
+                          transform="translate(1.5,2.5458053169815202)" pointer-events="visibleStroke" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg" class="jtk-connector-outline" fill="none"
+                          stroke="transparent" style="" stroke-width="21"></path>
+                    <path d="M 0 121.33333333333334 C 50 111.33333333333334 111 10 161 0 "
+                          transform="translate(1.5,2.5458053169815202)" pointer-events="visibleStroke" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#E0E3E7" style=""
+                          stroke-width="1"></path>
+                    <path pointer-events="all" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                          d="M161,0 L154.73101081532235,7.049806706739895 L154.8588083048183,1.801600555903347 L151.91600994672336,-2.5458053169815202 L161,0"
+                          class="" stroke="#E0E3E7" fill="#E0E3E7" transform="translate(1.5,2.5458053169815202)"></path>
+                </svg>
+                <div class="jtk-overlay aLabel" id="jsPlumb_3_9"
+                     style="position: absolute; transform: translate(-50%, -50%); left: 204.808px; top: 228.276px;"></div>
+                <div class="jtk-overlay flowLabel" id="jsPlumb_3_8"
+                     style="position: absolute; transform: translate(-50%, -50%); font: 12px sans-serif; color: black; left: 270px; top: 173.167px;">
+                    条件A
+                </div>
+                <svg style="position:absolute;left:188.5px;top:244.16666666666666px" width="167"
+                     height="126.37809141742623" pointer-events="none" position="absolute" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg" class="jtk-connector">
+                    <path d="M 0 0 C 50 10 114 112.33333333333334 164 122.33333333333334 "
+                          transform="translate(1.5,1.5)" pointer-events="visibleStroke" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg" class="jtk-connector-outline" fill="none"
+                          stroke="transparent" style="" stroke-width="21"></path>
+                    <path d="M 0 0 C 50 10 114 112.33333333333334 164 122.33333333333334 "
+                          transform="translate(1.5,1.5)" pointer-events="visibleStroke" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#E0E3E7" style=""
+                          stroke-width="1"></path>
+                    <path pointer-events="all" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                          d="M164,122.33333333333334 L157.73182356924988,115.28280397498098 L157.85901603683504,120.53102482362955 L154.9157165228377,124.87809141742623 L164,122.33333333333334"
+                          class="" stroke="#E0E3E7" fill="#E0E3E7" transform="translate(1.5,1.5)"></path>
+                </svg>
+                <div class="jtk-overlay aLabel" id="jsPlumb_3_18"
+                     style="position: absolute; transform: translate(-50%, -50%); left: 204.892px; top: 250.752px;"></div>
+                <div class="jtk-overlay flowLabel" id="jsPlumb_3_17"
+                     style="position: absolute; transform: translate(-50%, -50%); font: 12px sans-serif; color: black; left: 271.5px; top: 306.333px;">
+                    条件B
+                </div>
+                <div class="jtk-endpoint jtk-endpoint-anchor jtk-draggable jtk-droppable jtk-endpoint-connected jtk-endpoint-full"
+                     style="position: absolute; height: 6px; width: 6px; left: 187px; top: 231.333px;">
+                    <svg style="position:absolute;left:0px;top:0px" width="6" height="6" pointer-events="all"
+                         position="absolute" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="3" cy="3" r="3" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                stroke="none" style=""></circle>
+                    </svg>
+                </div>
+                <div class="jtk-overlay aLabel jtk-endpoint-connected jtk-endpoint-full" id="jsPlumb_3_3"
+                     style="position: absolute; transform: translate(-50%, -50%); left: 189.5px; top: 233.833px;"></div>
+                <div class="jtk-endpoint jtk-endpoint-anchor jtk-draggable jtk-droppable jtk-endpoint-connected jtk-endpoint-full"
+                     style="position: absolute; height: 6px; width: 6px; left: 187px; top: 242.667px;">
+                    <svg style="position:absolute;left:0px;top:0px" width="6" height="6" pointer-events="all"
+                         position="absolute" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="3" cy="3" r="3" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                stroke="none" style=""></circle>
+                    </svg>
+                </div>
+                <div class="jtk-overlay aLabel jtk-endpoint-connected jtk-endpoint-full" id="jsPlumb_3_12"
+                     style="position: absolute; transform: translate(-50%, -50%); left: 189.5px; top: 245.167px;"></div>
+                <div class="jtk-endpoint jtk-endpoint-anchor jtk-draggable jtk-droppable jtk-endpoint-connected jtk-endpoint-full"
+                     style="position: absolute; height: 6px; width: 6px; left: 348px; top: 110px;">
+                    <svg style="position:absolute;left:0px;top:0px" width="6" height="6" pointer-events="all"
+                         position="absolute" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="3" cy="3" r="3" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                stroke="none" style=""></circle>
+                    </svg>
+                </div>
+                <div class="jtk-overlay aLabel jtk-endpoint-connected jtk-endpoint-full" id="jsPlumb_3_6"
+                     style="position: absolute; transform: translate(-50%, -50%); left: 350.5px; top: 112.5px;"></div>
+                <div class="jtk-endpoint jtk-endpoint-anchor jtk-draggable jtk-droppable jtk-endpoint-connected jtk-endpoint-full"
+                     style="position: absolute; height: 6px; width: 6px; left: 351px; top: 365px;">
+                    <svg style="position:absolute;left:0px;top:0px" width="6" height="6" pointer-events="all"
+                         position="absolute" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="3" cy="3" r="3" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                stroke="none" style=""></circle>
+                    </svg>
+                </div>
+                <div class="jtk-overlay aLabel jtk-endpoint-connected jtk-endpoint-full" id="jsPlumb_3_15"
+                     style="position: absolute; transform: translate(-50%, -50%); left: 353.5px; top: 367.5px;"></div>
+                <div class="ef-node-container" id="nodeA" style="top: 223px; left: 18px;">
+                    <div class="ef-node-left"></div>
+                    <div class="ef-node-left-ico flow-node-drag"><i class="el-icon-user-solid flow-node-drag"></i></div>
+                    <div show-overflow-tooltip="true" class="ef-node-text">
+                        流程B-节点A
+                    </div>
+                    <div class="ef-node-right-ico"><i class="el-icon-circle-check el-node-state-success"></i> <i
+                            class="el-icon-circle-close el-node-state-error" style="display: none;"></i> <i
+                            class="el-icon-warning-outline el-node-state-warning" style="display: none;"></i> <i
+                            class="el-icon-loading el-node-state-running" style="display: none;"></i></div>
+                </div>
+                <div class="ef-node-container jtk-droppable jtk-managed jtk-draggable jtk-connected" id="nodeB"
+                     style="top: 96px; left: 351px;">
+                    <div class="ef-node-left"></div>
+                    <div class="ef-node-left-ico flow-node-drag"><i class="el-icon-goods flow-node-drag"></i></div>
+                    <div show-overflow-tooltip="true" class="ef-node-text">
+                        流程B-节点B
+                    </div>
+                    <div class="ef-node-right-ico"><i class="el-icon-circle-check el-node-state-success"
+                                                      style="display: none;"></i> <i
+                            class="el-icon-circle-close el-node-state-error"></i> <i
+                            class="el-icon-warning-outline el-node-state-warning" style="display: none;"></i> <i
+                            class="el-icon-loading el-node-state-running" style="display: none;"></i></div>
+                </div>
+                <div class="ef-node-container jtk-droppable jtk-managed jtk-draggable jtk-connected" id="nodeC"
+                     style="top: 351px; left: 354px;">
+                    <div class="ef-node-left"></div>
+                    <div class="ef-node-left-ico flow-node-drag"><i class="el-icon-present flow-node-drag"></i></div>
+                    <div show-overflow-tooltip="true" class="ef-node-text">
+                        流程B-节点C
+                    </div>
+                    <div class="ef-node-right-ico"><i class="el-icon-circle-check el-node-state-success"
+                                                      style="display: none;"></i> <i
+                            class="el-icon-circle-close el-node-state-error" style="display: none;"></i> <i
+                            class="el-icon-warning-outline el-node-state-warning"></i> <i
+                            class="el-icon-loading el-node-state-running" style="display: none;"></i></div>
+                </div>
+            </div>
+            <div style="width: 300px; border-left: 1px solid rgb(220, 227, 232); background-color: rgb(251, 251, 251);">
+                <div>
+                    <div class="ef-node-form">
+                        <div class="ef-node-form-header">
+                            编辑
+                        </div>
+                        <div class="ef-node-form-body">
+                            <form class="el-form">
+                                <div class="el-form-item el-form-item--small"><label class="el-form-item__label"
+                                                                                     style="width: 80px;">类型</label>
+                                    <div class="el-form-item__content" style="margin-left: 80px;">
+                                        <div class="el-input el-input--small is-disabled"><!----><input type="text"
+                                                                                                        disabled="disabled"
+                                                                                                        autocomplete="off"
+                                                                                                        class="el-input__inner">
+                                            <!----><!----><!----><!----></div><!----></div>
+                                </div>
+                                <div class="el-form-item el-form-item--small"><label class="el-form-item__label"
+                                                                                     style="width: 80px;">名称</label>
+                                    <div class="el-form-item__content" style="margin-left: 80px;">
+                                        <div class="el-input el-input--small"><!----><input type="text"
+                                                                                            autocomplete="off"
+                                                                                            class="el-input__inner">
+                                            <!----><!----><!----><!----></div><!----></div>
+                                </div>
+                                <div class="el-form-item el-form-item--small"><label class="el-form-item__label"
+                                                                                     style="width: 80px;">left坐标</label>
+                                    <div class="el-form-item__content" style="margin-left: 80px;">
+                                        <div class="el-input el-input--small"><!----><input type="text"
+                                                                                            autocomplete="off"
+                                                                                            class="el-input__inner">
+                                            <!----><!----><!----><!----></div><!----></div>
+                                </div>
+                                <div class="el-form-item el-form-item--small"><label class="el-form-item__label"
+                                                                                     style="width: 80px;">top坐标</label>
+                                    <div class="el-form-item__content" style="margin-left: 80px;">
+                                        <div class="el-input el-input--small"><!----><input type="text"
+                                                                                            autocomplete="off"
+                                                                                            class="el-input__inner">
+                                            <!----><!----><!----><!----></div><!----></div>
+                                </div>
+                                <div class="el-form-item el-form-item--small"><label class="el-form-item__label"
+                                                                                     style="width: 80px;">ico图标</label>
+                                    <div class="el-form-item__content" style="margin-left: 80px;">
+                                        <div class="el-input el-input--small"><!----><input type="text"
+                                                                                            autocomplete="off"
+                                                                                            class="el-input__inner">
+                                            <!----><!----><!----><!----></div><!----></div>
+                                </div>
+                                <div class="el-form-item el-form-item--small"><!---->
+                                    <div class="el-form-item__content" style="margin-left: 80px;">
+                                        <button type="button" class="el-button el-button--default el-button--small">
+                                            <!----><i class="el-icon-close"></i><span>重置</span></button>
+                                        <button type="button" class="el-button el-button--primary el-button--small">
+                                            <!----><i class="el-icon-check"></i><span>保存</span></button><!----></div>
+                                </div>
+                            </form>
+                            <form class="el-form" style="display: none;">
+                                <div class="el-form-item el-form-item--small"><label class="el-form-item__label"
+                                                                                     style="width: 80px;">条件</label>
+                                    <div class="el-form-item__content" style="margin-left: 80px;">
+                                        <div class="el-input el-input--small"><!----><input type="text"
+                                                                                            autocomplete="off"
+                                                                                            class="el-input__inner">
+                                            <!----><!----><!----><!----></div><!----></div>
+                                </div>
+                                <div class="el-form-item el-form-item--small"><!---->
+                                    <div class="el-form-item__content" style="margin-left: 80px;">
+                                        <button type="button" class="el-button el-button--default el-button--small">
+                                            <!----><i class="el-icon-close"></i><span>重置</span></button>
+                                        <button type="button" class="el-button el-button--primary el-button--small">
+                                            <!----><i class="el-icon-check"></i><span>保存</span></button><!----></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!----></div>
+</div>
+<script type="text/javascript" src="./easy-flow_files/manifest.3ad1d5771e9b13dbdad2.js"></script>
+<script type="text/javascript" src="./easy-flow_files/vendor.e444defb04b5982a2ad4.js"></script>
+<script type="text/javascript" src="./easy-flow_files/app.5dcf04a7d2f81c1f306a.js"></script>
+<script type="text/javascript" src="../../component/jquery.min.js"></script>
+<div tabindex="-1" role="dialog" aria-modal="true" aria-label="提示" class="el-message-box__wrapper"
+     style="z-index: 2001; display: none;">
+    <div class="el-message-box">
+        <div class="el-message-box__header">
+            <div class="el-message-box__title"><!----><span>提示</span></div>
+            <button type="button" aria-label="Close" class="el-message-box__headerbtn"><i
+                    class="el-message-box__close el-icon-close"></i></button>
+        </div>
+        <div class="el-message-box__content">
+            <div class="el-message-box__status el-icon-warning"></div>
+            <div class="el-message-box__message"><p>确定要删除节点nodeD?</p></div>
+            <div class="el-message-box__input" style="display: none;">
+                <div class="el-input el-input--small"><!----><input type="text" autocomplete="off" placeholder=""
+                                                                    class="el-input__inner"><!----><!----><!----><!---->
+                </div>
+                <div class="el-message-box__errormsg" style="visibility: hidden;"></div>
+            </div>
+        </div>
+        <div class="el-message-box__btns">
+            <button type="button" class="el-button el-button--default el-button--small"><!----><!----><span>
+          取消
+        </span></button>
+            <button type="button" class="el-button el-button--default el-button--small el-button--primary "><!---->
+                <!----><span>
+          确定
+        </span></button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        //1.初始化公共工具
+        //$(".ef-node-menu-ul > div:first").html("");
+        $.ajax({
+            url:'http://localhost:8080/tool/list',
+            method:'post',
+            data:{"cate":1},
+            dataType:'JSON',
+            success:function(res){
+                if(res.code='200'){
+                    console.log(res);
+                    $(res.data).each(function () {
+                        //$("#diagramContainer-left").append("<div  class=\'col-sm-12\'><div class=\'jnode-box jnode-rectangle bdc-primary\' data-template=\'jnode-template\' data-jnode=\'task\' id=\'"+this.id+"\' data-jnode-class=\'jnode-task bdc-primary\'><span style='font-size:8pt'>"+this.name+"</span></div> </div>");
+                        $(".ef-node-menu-ul > div:first").append("<li type=\"task\" class=\"ef-node-menu-li\"><i class=\"el-icon-box\"></i> "+this.name+"</li>");
+                    });
+                    $(".ef-node-menu-ul > div:first").draggable({
+                        helper: "clone"
+                    });
+                } else {
+                    alert(res.msg);
+                }
+            },
+            error:function (res) {
+
+            }
+        }) ;
+        //2.初始化私有工具
+        $(".ef-node-menu-ul > div:last").html("");
+        $.ajax({
+            url:'http://localhost:8080/tool/list',
+            method:'post',
+            data:{"cate":2},
+            dataType:'JSON',
+            success:function(res){
+                if(res.code='200'){
+                    console.log(res);
+                    $(res.data).each(function () {
+                        //$("#diagramContainer-left").append("<div  class=\'col-sm-12\'><div class=\'jnode-box jnode-rectangle bdc-primary\' data-template=\'jnode-template\' data-jnode=\'task\' id=\'"+this.id+"\' data-jnode-class=\'jnode-task bdc-primary\'><span style='font-size:8pt'>"+this.name+"</span></div> </div>");
+                        $(".ef-node-menu-ul > div:last").append("<li type=\"task\" class=\"ef-node-menu-li\"><i class=\"el-icon-odometer\"></i> "+this.name+"</li>");
+                    });
+                } else {
+                    alert(res.msg);
+                }
+            },
+            error:function (res) {
+
+            }
+        }) ;
+
+    });
+
+
+
+</script>
+</body>
+</html>

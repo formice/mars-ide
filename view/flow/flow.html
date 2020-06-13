@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html style="height:100%">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>jsplumb-visio</title>
+  <link href="../../resource/flow/fonts/font-awesome.min.css" rel="stylesheet">
+  <link href="../../component/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="../../component/jqueryui/jquery-ui.css" rel="stylesheet">
+  <link href="../../resource/flow/css/jvisio.css" rel="stylesheet">
+
+  <style>
+    .bdc-primary {
+      border: 1px dashed #e0e3e7;
+      background-color: #ffffff;
+      height: 30px;
+    }
+    .jnode-rectangle {
+      border-radius: 5px;
+      width: 150px;
+      height: 50px;
+    }
+    .jnode-box {
+      box-shadow: 2px 2px 19px #aaa;
+      -o-box-shadow: 2px 2px 19px #aaa;
+      -webkit-box-shadow: 2px 2px 19px #aaa;
+      -moz-box-shadow: 2px 2px 19px #aaa;
+      -moz-border-radius: 0.5em;
+      border-radius: 0.2em;
+      opacity: 0.8;
+      z-index: 2;
+      filter: alpha(opacity=80);
+      text-align: center;
+      vertical-align: middle;
+      color: #565758;
+      background-color: #eeeeef;
+      font-size: 12pt;
+      cursor: pointer;
+      height: 30px;
+      line-height: 10px;
+      margin: 5px 0;
+      padding: 5px 5px 5px 8px;
+    }
+    .jnode-task {
+      /* border-radius: 0.5em; */
+      width: 150px;
+      margin: 0px auto;
+    }
+
+    .ef-node-form-header {
+      height: 32px;
+      border-top: 1px solid #dce3e8;
+      border-bottom: 1px solid #dce3e8;
+      background: #f1f3f4;
+      color: #000;
+      line-height: 32px;
+      padding-left: 12px;
+      font-size: 14px;
+      width:500px;
+    }
+
+    .input-label{
+      width:80px;
+      text-align: right;
+      vertical-align: middle;
+      /*float: left;*/
+      font-size: 14px;
+      color: #606266;
+      line-height: 40px;
+      padding: 0 12px 0 0;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin-top:5px;
+    }
+
+    .input-content{
+      background-color: #f5f7fa;
+      border-color: #e4e7ed;
+      color: #c0c4cc;
+      cursor: not-allowed;
+      height: 32px;
+      line-height: 32px;
+      -webkit-appearance: none;
+      background-color: #fff;
+      background-image: none;
+      border-radius: 4px;
+      border: 1px solid #dcdfe6;
+      box-sizing: border-box;
+      color: #606266;
+      display: inline-block;
+      font-size: inherit;
+      height: 40px;
+      line-height: 40px;
+      outline: 0;
+      padding: 0 15px;
+      -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+      transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+      width: 150px;
+      margin-top:5px;
+    }
+
+    .flow-btn{
+      /*margin-right: 20px;
+      margin-bottom: 20px;*/
+      margin-top:75%;
+      margin-left:55%;
+      /*float: left;*/
+      height: 32px;
+      width: 80px;
+      color: #fff;
+      background-color: #409eff;
+      border-color: #409eff;
+
+      display: inline-block;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      /*background: #fff;*/
+      border: 1px solid #dcdfe6;
+      /*color: #606266;*/
+      -webkit-appearance: none;
+      text-align: center;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      outline: 0;
+      /*margin: 0;*/
+      -webkit-transition: .1s;
+      transition: .1s;
+      font-weight: 500;
+      -moz-user-select: none;
+      /*padding: 12px 20px;*/
+      font-size: 14px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body style="height:100%">
+  <div id="app" style="/*margin-top: 10px;*/height:100%">
+    <div class="container-fluid" style="height:100%">
+      <div class="row" style="height:100%">
+        <div id="diagramContainer-left" class="col-md-2 bg-info min-height" style="width:250px;height:100%;border-right:1px solid rgb(220, 227, 232);background-color:#ffffff">
+			<h4 class="text-center">工具区域</h4>
+          <!--<div  class="col-sm-12">
+			<div class="jnode-box jnode-round bdc-success" data-template="jnode-template"
+			data-jnode="start" id="1" data-jnode-class="jnode-radius bdc-success"><span>开始</span></div>
+		  </div>
+           
+		  <div  class="col-sm-12">
+			<div class="jnode-box jnode-rectangle bdc-primary" data-template="jnode-template"
+			data-jnode="task" id="2" data-jnode-class="jnode-task bdc-primary"><span>节点</span></div>
+		  </div>
+
+		   <div  class="col-sm-12">
+			<div class="jnode-box jnode-diamond bdc-warning" data-template="jnode-template" 
+			data-jnode="judge" data-jnode-class="jnode-diamond jnode-judge bdc-warning"><span>判断</span></div>
+		  </div>
+
+		  <div  class="col-sm-12">
+			<div class="jnode-box jnode-round bdc-danger" data-template="jnode-template"
+			data-jnode="end" data-jnode-class="jnode-radius bdc-danger"><span>结束</span></div>
+		  </div>-->
+
+        </div>
+        <div class="col-sm-8 bg-success min-height" id="diagramContainer-main" style="height:100%;background-color:white;">
+			<!--<h4 class="text-center">设计区域</h4>-->
+			<!-- 定义目标节点的模板 -->
+				<script type="text/x-mustache" id="jnode-template">
+					<div class="jnode-panel" id="{{id}}" style="top:{{top}}px;left:{{left}}px">
+						<div class="jnode-box {{jnodeClass}}">{{{jnodeHtml}}}</div>
+					</div>
+				</script>
+
+
+
+          <button id="save" class="flow-btn">保存</button>
+          <a id="my-link" href="#diagramContainer-control" style="display: none">Open panel</a>
+        </div>
+
+
+		<div class="col-sm-2 bg-info min-height" id="diagramContainer-control" style="display:none;width:250px;height:100%;border-left: 1px solid rgb(220, 227, 232);  background-color:#f8f8f8;padding:0px;">
+			<h4 class="text-center">属性设置</h4>
+
+            <form>
+              <div class="ef-node-form-header">
+                工作流
+              </div>
+              <div>
+                <label class="input-label">名称:</label><input type="text" id="flow-name" value="" class="input-content" style="height:32px"/>
+                <label class="input-label">描述:</label><input type="text" id="flow-desc" value="" class="input-content" style="height:32px"/>
+              </div>
+              <div class="ef-node-form-header">
+                参数设置
+              </div>
+              <div id="param-content">
+                <!--<label class="input-label">名称:</label><input type="text" value="" class="input-content" style="height:32px"/>
+                <label class="input-label">描述:</label><input type="text" name="desc" placeholder="请填写描述" value="" class="input-content" style="height:32px"/>-->
+              </div>
+            </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <script src="../../component/jquery.min.js"></script>
+  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+  <script src="../../component/panelslider/jquery.panelslider.min.js"></script>
+  <script src="../../component/common/uuid.min.js"></script>
+  <script src="../../component/common/mustache.min.js"></script>
+  <script src="../../component/jqueryui/jquery-ui.min.js"></script>
+  <script src="../../component/jsplumb/jquery.jsPlumb-1.7.2.js"></script>
+  <script src="../../resource/flow/js/jvisio-config.js"></script>
+  <script src="../../resource/flow/js/jvisio-index.js"></script>
+
+
+
+</body>
+<script>
+  $(function(){
+    //$('#my-link').panelslider();
+    $('#my-link').panelslider({side: 'right', clickClose: true, duration: 200 });
+    //$('#diagramContainer-control').panelslider();
+
+
+    $('#my-link').bind("click",
+            function(){
+              $('body').css("margin-left","0px");
+    });
+
+    /*$.panelslider.close(function(){
+      alert("close");
+    });*/
+    $.panelslider.close = function(callback) {
+      var _sliding = false;
+      var $body = $('body');
+      var active = $('.ps-active-panel'),
+              duration = active.data('duration'),
+              panelWidth = active.outerWidth(true),
+              bodyAnimation = {},
+              panelAnimation = {};
+
+      if(!active.length || active.is(':hidden') || _sliding) {
+        return;
+      }
+
+      _sliding = true;
+
+      switch(active.data('side')) {
+        case 'left':
+          bodyAnimation['margin-left'] = '-=' + panelWidth;
+          panelAnimation.left = '-=' + panelWidth;
+          break;
+
+        case 'right':
+          bodyAnimation['margin-left'] = '+=' + panelWidth;
+          panelAnimation.right = '-=' + panelWidth;
+          break;
+      }
+
+      active.animate(panelAnimation, duration);
+      $body.animate(bodyAnimation, duration, function() {
+        active.hide();
+        active.removeClass('ps-active-panel');
+        _sliding = false;
+
+        if(callback) {
+          callback();
+        }
+      });
+      //源码修改  关闭右边滑动面板时候，清除内容
+      var params = [];
+      /*params.push({
+        id: $('#id').val(),
+        toolId: $('#toolId').val(),
+        value:$('value').val()
+      });*/
+      var params = [];
+      $("div[id^='flow-param-']").each(function(){
+        var param = {};
+
+        param.id = $(this).find("input[id^='id-']").val();
+        param.toolId = $(this).find("input[id^='toolId-']").val();
+        param.value = $(this).find("input[id^='value-']").val();
+        param.name = $(this).find("label[id^='name-']").html().replace(":","");
+
+        params.push(param);
+      });
+      localStorage.setItem("tool-"+params[0].toolId,JSON.stringify(params));
+      //localStorage.setItem(params[0].toolId,"test");
+      //alert(JSON.stringify(params));
+
+
+      $('#param-content').children().remove();
+    }
+
+    $('#diagramContainer-control')
+            . on('psOpen', function(e) {
+              alert(1);
+              console.log(e.type)
+            })
+            . on('psClose', function(e) {
+              alert(2);
+              console.log(e.type)
+            })
+            . on('psBeforeOpen', function(e) {
+              alert(3);
+              console.log(e.type)
+            })
+            . on('psBeforeClose', function(e) {
+              alert(4);
+              console.log(e.type)
+            });
+
+    $('#test').click(function() {
+      $.panelslider.close();
+    });
+  });
+
+  </script>
+
+</html>
