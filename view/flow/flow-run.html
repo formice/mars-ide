@@ -27,11 +27,30 @@
       margin-left:2px;
       margin-right: 2px;
     }
+
+    .layui-input {
+      -webkit-appearance: none;
+      background-color: #fff;
+      background-image: none;
+      border-radius: 4px;
+      border: 1px solid #dcdfe6;
+      box-sizing: border-box;
+      color: #606266;
+      display: inline-block;
+      font-size: inherit;
+      height: 40px;
+      line-height: 40px;
+      outline: none;
+      padding: 0 15px;
+      transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+      width: 80%;
+    }
   </style>
 </head>
 <body>
   <div >
     <div class="layui-row layui-col-space15">
+      <form class="layui-form" action="" onSubmit="return false;">
       <div class="layui-col-md6" id="card-tool">
         <div class="layui-card">
           <!--<div class="layui-card-header">名称：</div>-->
@@ -83,6 +102,7 @@
 
 
       </div>
+      </form>
     </div>
   </div>
  
@@ -158,8 +178,8 @@
                     }else if(cate == 'params'){
                       type = 18;
                     }
-
-                    $('#card-tool >  #layui-card-'+toolId+' > #layui-card-body-'+toolId+'-'+cate+' > #layui-row-'+toolId+'').append(
+                    if(type == 16){
+                      $('#card-tool >  #layui-card-'+toolId+' > #layui-card-body-'+toolId+'-'+cate+' > #layui-row-'+toolId+'').append(
                             "                <div id=\"run-"+id+"\" class=\"layui-col-lg6\">\n"+
                             "                 <input type=\"hidden\" id=\"run-id-"+id+"\" value=\""+id+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" >\n" +
                             "                 <input type=\"hidden\" id=\"run-toolId-"+toolId+"\" value=\""+toolId+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
@@ -167,9 +187,25 @@
                             "                  <label class=\"layui-form-label\">"+name+"：</label>\n" +
                             "                  <div class=\"layui-input-block\">\n" +
                             "                    <input type=\"text\" id=\"run-value-"+id+"\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
+                            "                    <input type=\"checkbox\" id=\"run-chk-"+id+"\" name=\"marriage\" lay-skin=\"switch\" lay-text=\"本地|远程\" checked>"+
                             "                  </div>\n" +
+
                             "                </div>\n"
                             );
+                    }else{
+                      $('#card-tool >  #layui-card-'+toolId+' > #layui-card-body-'+toolId+'-'+cate+' > #layui-row-'+toolId+'').append(
+                              "                <div id=\"run-"+id+"\" class=\"layui-col-lg6\">\n"+
+                              "                 <input type=\"hidden\" id=\"run-id-"+id+"\" value=\""+id+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" >\n" +
+                              "                 <input type=\"hidden\" id=\"run-toolId-"+toolId+"\" value=\""+toolId+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                              "                 <input type=\"hidden\" id=\"run-type-"+type+"\" value=\""+type+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                              "                  <label class=\"layui-form-label\">"+name+"：</label>\n" +
+                              "                  <div class=\"layui-input-block\">\n" +
+                              "                    <input type=\"text\" id=\"run-value-"+id+"\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
+                              "                  </div>\n" +
+
+                              "                </div>\n"
+                      );
+                    }
                   }
                   $('#card-tool >  #layui-card-'+toolId+'').append("</div>");
                   $('#card-tool >  #layui-card-'+toolId+' > #layui-card-body-'+toolId+'-'+cate).append("</div>");
@@ -182,7 +218,11 @@
                       "            <button id=\"run1\" class=\"layui-btn layui-btn-normal\" lay-submit lay-filter=\"component-form-element\">立即运行</button>\n" +
                       "          </div>\n" +
                       "        </div>");
-
+              //动态生成的html，必须render一下，样式才能生效
+              layui.use('form',function(){
+                  var form = layui.form;
+                  form.render();
+              })
 
             } else {
               alert(res.msg);
@@ -209,6 +249,15 @@
             run.toolId = $(this).find("input[id^='run-toolId-']").val();
             run.type = $(this).find("input[id^='run-type-']").val();
             run.value = $(this).find("input[id^='run-value-']").val();
+
+            //是否是从远程网盘 获取文件
+            var chk = $(this).parent().parent().find('input[id^=\'run-chk-\']').next().attr('class');
+            if(chk == 'layui-unselect layui-form-switch'){
+              run.isRemote = 1;
+            }else{
+              run.isRemote = 0;
+            }
+
             runArr.push(run);
           });
           jsonObj.run = runArr;
@@ -242,7 +291,58 @@
 
             }
           });
-    });
+      });
+
+      $("body").on('click', 'input[id^=\'run-value-\']',function () {
+        var type = $(this).parent().parent().find('input[id^=\'run-type-\']').val();
+        var chk = $(this).parent().parent().find('input[id^=\'run-chk-\']').next().attr('class');
+
+        //是输入项 && 切换成"远程" 才允许加载网盘文件
+        //layui-unselect layui-form-switch  远程
+        //layui-unselect layui-form-switch layui-form-onswitch 本地
+        if(type == 16 && chk == 'layui-unselect layui-form-switch') {
+            openFileChooseWin($(this));
+        }
+      });
+
+      function openFileChooseWin(o) {
+        layer.open({
+          type: 2 //此处以iframe举例
+          , title: '选择文件'
+          //, area: ['800px', '600px']
+          ,area: ['100%', '100%']
+          , shade: 0
+          , maxmin: true
+          , offset: 'auto'//显示坐标-auto居中
+          , content: "http://localhost:63342/mars-ide/view/pan/views/file-choose.html"
+          , btn: ['确认']
+          , yes: function (index) {
+            //alert(1+":"+index);
+            var res = window["layui-layer-iframe" + index].callback();
+            //alert(res);
+            o.parent().parent().find('input[id^=\'run-value-\']').val(res);
+              layer.close()
+              layer.closeAll();
+          }
+          , zIndex: layer.zIndex //重点1
+          , success: function (index,layero) {
+            //layer.setTop(layero); //重点2
+          }
+          ,cancel:function(index){
+            alert(3);
+          }
+          ,end: function () {
+            //alert(2);
+            //alert($(window.parent.document).find("#window-return").val());
+            //当点击‘选择城市’按钮的时候，获取弹出层返回的值
+            //alert(2+":"+index);
+            //var index = 2;
+            //var res = window["layui-layer-iframe" + index].callback();
+            //alert(res);
+            //window.location.reload();
+          }
+        });
+      }
 
 
     });

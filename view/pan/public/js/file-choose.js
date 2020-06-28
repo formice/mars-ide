@@ -99,6 +99,16 @@
 				});
 				checkedAll.removeClass('checked')
 			} else {
+				//alert($(this).attr('path'));
+				$('#window-return').val($(this).attr('path'));
+				$("a.layui-layer-btn0").hide();
+				//$('.layui-layer-btn0').click();
+				// 获得frame索引
+				//var index = parent.layer.getFrameIndex(window.name);
+				//alert(index);
+				//关闭当前frame
+				//parent.layer.close(index);
+
 				// 点击选中单个文件
 				let bl = $(this).children('i').toggleClass('checked').is('.checked');
 				if(bl) {
