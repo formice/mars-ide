@@ -409,7 +409,7 @@
 				// --------------操作数据库新建文件----------
 				//alert(path+folderName);
 				$.ajax({
-					url: 'http://localhost:8080/pan/create/folder',
+					url: serviceUrl+'/pan/create/folder',
 					method: 'post',
 					/*data: {
 						method: 1,
@@ -493,7 +493,7 @@
 	    	fData.append('file', file, last_name);
 		  	var currentfolder = breadNav.find('span:last').attr('path');
 	    	$.ajax({
-	    		url: `http://localhost:8080/upload/file?folder=${currentfolder}`,
+	    		url: serviceUrl+`/upload/file?folder=${currentfolder}`,
 	    		method: 'post',
 	    		cache: false,
 	    		data: fData,
@@ -719,7 +719,7 @@
 
 	function load(folder,callback){
 		$.ajax({
-			url: 'http://localhost:8080/pan/file',
+			url: serviceUrl+'/pan/file',
 			method: 'get',
 			contentType: 'application/json', //需要加contentType
 			data: {"folder":folder},

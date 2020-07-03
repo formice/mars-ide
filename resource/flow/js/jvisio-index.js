@@ -7,7 +7,7 @@
 
   jsPlumb.ready(jsPlumbMain);
 	$.ajax({
-		url:'http://localhost:8080/tool/list',
+		url:serviceUrl+'/tool/list',
 		method:'post',
 		data:{"cate":1},
 		dataType:'JSON',
@@ -151,7 +151,7 @@
 		});*/
   	}else {
 		$.ajax({
-			url: 'http://localhost:8080/tool/parameter',
+			url: serviceUrl+'/tool/parameter',
 			method: 'post',
 			data: {"toolId": toolId},
 			dataType: 'JSON',
@@ -314,7 +314,9 @@
 		$.each(nodes,function(index,val){
 			//alert(val.nodeId.replace("node-",""));
 			var str = localStorage.getItem("tool-"+val.nodeId.replace("node-",""));
-			params = params.concat(JSON.parse(str));
+			if(str != null && str !='null' && str !='') {
+				params = params.concat(JSON.parse(str));
+			}
 		});
 		//alert(JSON.stringify(params));
 
@@ -331,7 +333,7 @@
 		console.log(nodes[0].nodeId);
 		//console.log(lineDescs[0]);
 		$.ajax({
-			url:'http://localhost:8080/flow/add',
+			url:serviceUrl+'/flow/add',
 			method:'post',
 			contentType:'application/json', //需要加contentType
 			data:JSON.stringify(serliza),

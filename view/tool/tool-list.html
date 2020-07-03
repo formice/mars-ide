@@ -6,6 +6,7 @@
 		<link href="../../component/layui/css/layui.css" rel="stylesheet" />
 		<link href="../../admin/css/pearCommon.css" rel="stylesheet" />
 		<script type="text/javascript" src="../../js/common/base.js"></script>
+		<script type="text/javascript" src="../../resource/common/constant.js"></script>
 	</head>
 	<body>
 		<body class="pear-container">
@@ -111,7 +112,7 @@
 		
 		        table.render({
 		            elem: '#user-table',
-		            url: 'http://localhost:8080/tool/base/pagelist',
+		            url: serviceUrl+'/tool/base/pagelist',
 		            page: true ,
 					method:'post',
 		            cols: cols ,

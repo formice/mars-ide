@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="../../admin/css/pearStep.css" />
 		<link rel="stylesheet" href="../../admin/css/pearForm.css" />
 		<link rel="stylesheet" href="../../admin/css/pearButton.css"/>
+		<script type="text/javascript" src="../../resource/common/constant.js"></script>
 		<script type="text/javascript" src="../../js/common/base.js"></script>
 		<style>
 			.pear-container {
@@ -228,7 +229,7 @@
 				//监听提交
 				form.on('submit(add)',function(data) {
 					$.ajax({
-						url:'http://localhost:8080/tool/template/add',
+						url:serviceUrl+'/tool/template/add',
 						method:'post',
 						data:data.field,
 						dataType:'JSON',
@@ -302,7 +303,7 @@
 			function initSelect($,form,ele,group){
 					$.ajax({
 						//拼接下拉选项
-						url:'http://localhost:8080/common/dic/group',
+						url:serviceUrl+'/common/dic/group',
 						method:'post',
 						data: {'group':group},
 						dataType:'JSON',

@@ -178,7 +178,7 @@ let renderOpera = (function(){
 
 	function load(folder,callback){
 		$.ajax({
-			url: 'http://localhost:8080/pan/file',
+			url: serviceUrl+'/pan/file',
 			method: 'get',
 			contentType: 'application/json', //需要加contentType
 			data: {"folder":folder},

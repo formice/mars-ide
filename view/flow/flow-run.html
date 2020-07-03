@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <title>富文本编辑器</title>
+  <script type="text/javascript" src="../../resource/common/constant.js"></script>
 	<link rel="stylesheet" href="../../component/layui/css/layui.css" />
 	<link rel="stylesheet" href="../../admin/css/pearForm.css" />
     <script type="text/javascript" src="../../js/common/base.js"></script>
@@ -135,7 +136,7 @@
       function loadToolConfig(){
         //初始化每个工具的参数
         $.ajax({
-          url:'http://localhost:8080/flow/tool/config?flowId='+getQueryVariable("flowId"),
+          url:serviceUrl+'/flow/tool/config?flowId='+getQueryVariable("flowId"),
           method:'post',
           //data:data.field,
           dataType:'JSON',
@@ -267,7 +268,7 @@
 
 
           $.ajax({
-            url: 'http://localhost:8080/flow/run',
+            url: serviceUrl+'/flow/run',
             method: 'post',
             contentType: 'application/json', //需要加contentType
             data: JSON.stringify(jsonObj),
@@ -314,7 +315,8 @@
           , shade: 0
           , maxmin: true
           , offset: 'auto'//显示坐标-auto居中
-          , content: "http://localhost:63342/mars-ide/view/pan/views/file-choose.html"
+          //, content: "http://localhost:63342/mars-ide/view/pan/views/file-choose.html"
+          , content: "../pan/views/file-choose.html"
           , btn: ['确认']
           , yes: function (index) {
             //alert(1+":"+index);
