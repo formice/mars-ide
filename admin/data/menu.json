@@ -16,7 +16,7 @@
 	},
 	{
 		"id": 2,
-		"title": "基因数据",
+		"title": "数据",
 		"icon": "layui-icon layui-icon-component",
 		"type": 1,
 		"href": "view/pan/views/index.html",
@@ -24,13 +24,11 @@
 	},
 	{
 		"id": 3,
-		"title": "常用页面",
+		"title": "任务",
 		"icon": "layui-icon layui-icon-face-cry",
-		"type": 0,
-		"href": "",
-		"spread": true,
-		"children": [
-		]
+		"type": 1,
+		"href": "view/task/task-list.html",
+		"spread": true
 	},
 	 {
 		"id": "error",

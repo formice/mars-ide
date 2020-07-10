@@ -153,59 +153,63 @@
                 $('#card-tool').append("<div class=\"layui-card\" id=\"layui-card-"+toolId+"\">"+
                         "<div class=\"layui-card-header\">工具名称："+toolName+"</div>");
                 //遍历参数类别
-                $.each(values,function(key,value){
+                $.each(values,function(key,value) {
                   var cate = key;
-                  if(cate == 'inputs'){
+                  if (cate == 'inputs') {
                     cate = "输入";
-                  }else if(cate =='outputs'){
+                  } else if (cate == 'outputs') {
                     cate = "输出";
-                  }else if(cate == 'params'){
+                  } else if (cate == 'params') {
                     return;
                   }
-                  $('#card-tool >  #layui-card-'+toolId+'').append("<div class=\"ef-node-form-header\">"+cate+"</div>");
-                  $('#card-tool >  #layui-card-'+toolId+'').append("<div class=\"layui-card-body\" id=\"layui-card-body-"+toolId+"-"+cate+"\">\n");
-                  $('#card-tool >  #layui-card-'+toolId+' > #layui-card-body-'+toolId+'-'+cate).append(
-                          "              <div class=\"layui-row layui-col-space10 layui-form-item\" id=\"layui-row-"+toolId+"\">\n");
-                  //遍历具体参数值
-                  for(var index in value){
-                    var name = value[index].name;
-                    var id = value[index].id;
-                    var defaultValue = value[index].defaultValue == undefined ? '' : value[index].defaultValue;
-                    var type = 0;
-                    if(cate == '输入'){
-                      type = 16;
-                    }else if(cate =='输出'){
-                      type = 17;
-                    }else if(cate == 'params'){
-                      type = 18;
-                    }
-                    if(type == 16){
-                      $('#card-tool >  #layui-card-'+toolId+' > #layui-card-body-'+toolId+'-'+cate+' > #layui-row-'+toolId+'').append(
-                            "                <div id=\"run-"+id+"\" class=\"layui-col-lg6\">\n"+
-                            "                 <input type=\"hidden\" id=\"run-id-"+id+"\" value=\""+id+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" >\n" +
-                            "                 <input type=\"hidden\" id=\"run-toolId-"+toolId+"\" value=\""+toolId+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
-                            "                 <input type=\"hidden\" id=\"run-type-"+type+"\" value=\""+type+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
-                            "                  <label class=\"layui-form-label\">"+name+"：</label>\n" +
-                            "                  <div class=\"layui-input-block\">\n" +
-                            "                    <input type=\"text\" id=\"run-value-"+id+"\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                            "                    <input type=\"checkbox\" id=\"run-chk-"+id+"\" name=\"marriage\" lay-skin=\"switch\" lay-text=\"本地|远程\" checked>"+
-                            "                  </div>\n" +
 
-                            "                </div>\n"
-                            );
-                    }else{
-                      $('#card-tool >  #layui-card-'+toolId+' > #layui-card-body-'+toolId+'-'+cate+' > #layui-row-'+toolId+'').append(
-                              "                <div id=\"run-"+id+"\" class=\"layui-col-lg6\">\n"+
-                              "                 <input type=\"hidden\" id=\"run-id-"+id+"\" value=\""+id+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" >\n" +
-                              "                 <input type=\"hidden\" id=\"run-toolId-"+toolId+"\" value=\""+toolId+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
-                              "                 <input type=\"hidden\" id=\"run-type-"+type+"\" value=\""+type+"\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
-                              "                  <label class=\"layui-form-label\">"+name+"：</label>\n" +
-                              "                  <div class=\"layui-input-block\">\n" +
-                              "                    <input type=\"text\" id=\"run-value-"+id+"\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                              "                  </div>\n" +
+                  //输入或者输出下面，存在具体的项，就展示
+                  if (value.length > 0) {
+                    $('#card-tool >  #layui-card-' + toolId + '').append("<div class=\"ef-node-form-header\">" + cate + "</div>");
+                    $('#card-tool >  #layui-card-' + toolId + '').append("<div class=\"layui-card-body\" id=\"layui-card-body-" + toolId + "-" + cate + "\">\n");
+                    $('#card-tool >  #layui-card-' + toolId + ' > #layui-card-body-' + toolId + '-' + cate).append(
+                            "              <div class=\"layui-row layui-col-space10 layui-form-item\" id=\"layui-row-" + toolId + "\">\n");
+                    //遍历具体项
+                    for (var index in value) {
+                      var name = value[index].name;
+                      var id = value[index].id;
+                      var defaultValue = value[index].defaultValue == undefined ? '' : value[index].defaultValue;
+                      var type = 0;
+                      if (cate == '输入') {
+                        type = 16;
+                      } else if (cate == '输出') {
+                        type = 17;
+                      } else if (cate == 'params') {
+                        type = 18;
+                      }
+                      if (type == 16) {
+                        $('#card-tool >  #layui-card-' + toolId + ' > #layui-card-body-' + toolId + '-' + cate + ' > #layui-row-' + toolId + '').append(
+                                "                <div id=\"run-" + id + "\" class=\"layui-col-lg6\">\n" +
+                                "                 <input type=\"hidden\" id=\"run-id-" + id + "\" value=\"" + id + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" >\n" +
+                                "                 <input type=\"hidden\" id=\"run-toolId-" + toolId + "\" value=\"" + toolId + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                                "                 <input type=\"hidden\" id=\"run-type-" + type + "\" value=\"" + type + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                                "                  <label class=\"layui-form-label\">" + name + "：</label>\n" +
+                                "                  <div class=\"layui-input-block\">\n" +
+                                "                    <input type=\"text\" id=\"run-value-" + id + "\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "                    <input type=\"checkbox\" id=\"run-chk-" + id + "\" name=\"marriage\" lay-skin=\"switch\" lay-text=\"本地|远程\" checked>" +
+                                "                  </div>\n" +
 
-                              "                </div>\n"
-                      );
+                                "                </div>\n"
+                        );
+                      } else if (type == 17) {//输出
+                        $('#card-tool >  #layui-card-' + toolId + ' > #layui-card-body-' + toolId + '-' + cate + ' > #layui-row-' + toolId + '').append(
+                                "                <div id=\"run-" + id + "\" class=\"layui-col-lg6\">\n" +
+                                "                 <input type=\"hidden\" id=\"run-id-" + id + "\" value=\"" + id + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" >\n" +
+                                "                 <input type=\"hidden\" id=\"run-toolId-" + toolId + "\" value=\"" + toolId + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                                "                 <input type=\"hidden\" id=\"run-type-" + type + "\" value=\"" + type + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                                "                  <label class=\"layui-form-label\">" + name + "：</label>\n" +
+                                "                  <div class=\"layui-input-block\">\n" +
+                                "                    <input type=\"text\" id=\"run-value-" + id + "\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "                  </div>\n" +
+
+                                "                </div>\n"
+                        );
+                      }
                     }
                   }
                   $('#card-tool >  #layui-card-'+toolId+'').append("</div>");
@@ -252,7 +256,7 @@
             run.value = $(this).find("input[id^='run-value-']").val();
 
             //是否是从远程网盘 获取文件
-            var chk = $(this).parent().parent().find('input[id^=\'run-chk-\']').next().attr('class');
+            var chk = $(this).find('input[id^=\'run-chk-\']').next().attr('class');
             if(chk == 'layui-unselect layui-form-switch'){
               run.isRemote = 1;
             }else{
@@ -281,7 +285,7 @@
                           icon: 6
                         },
                         function () {
-                          var url = "flow-list.html";//此处拼接内容
+                          var url = "../task/task-list.html";//此处拼接内容
                           window.location.href = url;
                         });
               } else {
