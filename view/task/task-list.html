@@ -91,11 +91,11 @@
 </script>
 
 <script type="text/html" id="task-startTime">
-    {{layui.util.toDateString(d.startTime, 'yyyy-MM-dd HH:mm:ss')}}
+    {{!d.startTime?'':layui.util.toDateString(d.startTime, 'yyyy-MM-dd HH:mm:ss') }}
 </script>
 
 <script type="text/html" id="task-endTime">
-    {{layui.util.toDateString(d.endTime, 'yyyy-MM-dd HH:mm:ss')}}
+    {{!d.endTime?'':layui.util.toDateString(d.endTime, 'yyyy-MM-dd HH:mm:ss') }}
 </script>
 
 <script src="../../component/layui/layui.js"></script>
@@ -115,8 +115,8 @@
                 /*{title: '任务描述', field: 'desc', align:'center'},*/
                 {title: '进度', field: 'process', align:'center', width:300, templet:'#task-process'},
                 {title: '状态', field: 'status', align:'center', width:100,templet:"#task-status"},
-                {title: '开始时间', field: 'startTime', align:'center',width:220/*, templet:"#task-startTime"*/},
-                {title: '结束时间', field: 'endTime', align:'center',width:220/*, templet:"#task-endTime"*/},
+                {title: '开始时间', field: 'startTime', align:'center',width:220, templet:"#task-startTime"},
+                {title: '结束时间', field: 'endTime', align:'center',width:220, templet:"#task-endTime"},
 
             ]
         ]
