@@ -7,7 +7,7 @@
   <script type="text/javascript" src="../../resource/common/constant.js"></script>
 	<link rel="stylesheet" href="../../component/layui/css/layui.css" />
 	<link rel="stylesheet" href="../../admin/css/pearForm.css" />
-    <script type="text/javascript" src="../../js/common/base.js"></script>
+    <script type="text/javascript" src="../../resource/common/base.js"></script>
   <style>
     body{margin: 10px;
 	background-color: whitesmoke;}
@@ -110,7 +110,7 @@
 <script src="../../component/layui/layui.js"></script>
 <script>
 
-    layui.use(['util', 'layer','form'], function () {
+    layui.use(['util', 'layer','form','pearTab','element'], function () {
         
 
         var util = layui.util;
@@ -118,6 +118,10 @@
         var form = layui.form;
 
         var $ = layui.jquery;
+
+        var pearTab = layui.pearTab;
+
+        var element = layui.element;
 
         /*var edit = tinymce.render({
             elem: "#edit"
@@ -285,8 +289,15 @@
                           icon: 6
                         },
                         function () {
-                          var url = "../task/task-list.html";//此处拼接内容
-                          window.location.href = url;
+                          var url = "view/task/task-list.html";
+                          //window.location.href = url;
+                          //pearTab.addTabOnly({id:111,title:"个人信息",url:url,close:true})
+                          //pearTab.addTabOnlyByElem("content",{id:3,title:"任务",url:url,close:true});
+                          //element.tabAdd("content",{id:3,title:"任务",content: '<iframe data-frameid="'+3+'" scrolling="no" frameborder="0" src="'+url+'" style="width:100%;"></iframe>'});
+                          //element.render('tab');
+                          //window.parent.layui.element.tabAdd("content",{id:3,title:"任务",content: '<iframe data-frameid="'+3+'" scrolling="auto" frameborder="0" src="'+'view/task/task-list.html'+'" style="width:100%;height: 100%"></iframe>'});
+                          //window.parent.layui.element.tabChange("content",3);
+                          addTab(pearTab,3,'任务',url);
                         });
               } else {
                 alert(res.msg);
