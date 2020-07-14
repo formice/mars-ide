@@ -297,7 +297,11 @@
                           //element.render('tab');
                           //window.parent.layui.element.tabAdd("content",{id:3,title:"任务",content: '<iframe data-frameid="'+3+'" scrolling="auto" frameborder="0" src="'+'view/task/task-list.html'+'" style="width:100%;height: 100%"></iframe>'});
                           //window.parent.layui.element.tabChange("content",3);
-                          addTab(pearTab,3,'任务',url);
+                          //1.生成任务 tab
+                          addTab(3,'任务',url);
+                          //2.回到工作流列表页面  或者关闭 当前tab
+                          window.location.href = "flow-list.html";
+                          //closeTab(4);
                         });
               } else {
                 alert(res.msg);
