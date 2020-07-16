@@ -11,13 +11,14 @@ function getQueryVariable(variable){
 function initSelect($,form,ele,group){
     $.ajax({
         //拼接下拉选项
-        url:'http://localhost:8080/common/dic/group',
+        url:serviceUrl+'/common/dic/group',
         method:'post',
         data: {'group':group},
         dataType:'JSON',
         success: function (res) {
             if(res.code='200') {
                 var data = res.data;
+                $("#"+ele).append('<option value="">全部</option>');
                 for (var i in data) {
                     $("#"+ele).append('<option value="' + data[i].code + '">' + data[i].name + '</option>');
                 }
