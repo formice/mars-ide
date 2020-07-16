@@ -114,64 +114,23 @@
 						<div carousel-item id="carousel-item">
 							<div id="step2">
 								<div style="text-align: left;margin-top: 5px;">
-									<button class="pear-btn pear-btn-success" id="btn-add">添加参数</button>
-									<button class="pear-btn pear-btn-success next" id="btn-next">下一步</button>
+									<!--<button class="pear-btn pear-btn-success" id="btn-add">添加模板</button>
+									<button class="pear-btn pear-btn-success next" id="btn-finish">完成</button>-->
 								</div>
 							</div>
 						</div>
-						<div class="layui-card" id="card-add" style="display:none">
+						<div class="layui-card" id="card-add" style="display:block">
 							<!--<div class="layui-card-body" style="padding-top: 60px;height: 50px;">-->
 							<div class="layui-card-body">
 								<form id="form" class="layui-form" action="javascript:void(0);">
 									<i class="layui-icon layui-icon-ok" id="btn-submit" lay-submit lay-filter="add" style="font-size: 30px; color: #1E9FFF;float:right;vertical-align: middle;"></i>
 									<i class="layui-icon layui-icon-close" id="btn-cancel" lay-submit lay-filter="del" style="font-size: 30px; color: #ff0000;float:right;vertical-align: middle;"></i>
 									<input type="text"  style="display:none" id="toolId" name="toolId" class="layui-input"/>
-									<div class="layui-form-item" style="margin-top:10px;">
-
-										<label for="name" class="layui-form-label">
-											<span class="x-red">*</span>名称</label>
-										<div class="layui-input-inline" style="width:100px;">
-											<input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
-
-										<label for="input-type" class="layui-form-label">
-											<span class="x-red">*</span>类型</label>
-										<div class="layui-input-inline" style="width:100px;">
-											<select id="input-type" name="type" class="valid">
-											</select>
-										</div>
-
-										<!--<label for="prefix" class="layui-form-label">
-											&lt;!&ndash;<span class="x-red">*</span>&ndash;&gt;前缀</label>
-										<div class="layui-input-inline" style="width:100px;">
-											<input type="text" id="prefix" name="prefix" required=""  class="layui-input"></div>
-
-										<label for="input-prefixSplitSymbol" class="layui-form-label">
-											&lt;!&ndash;<span class="x-red">*</span>&ndash;&gt;分隔符</label>
-										<div class="layui-input-inline" style="width:100px;">
-											<select id="input-prefixSplitSymbol" name="prefixSplitSymbol" class="valid">
-												&lt;!&ndash;<option value="10">空格</option>&ndash;&gt;
-											</select>
-										</div>-->
-
-										<label for="defaultValue" class="layui-form-label">默认值</label>
-										<div class="layui-input-inline" style="width:100px;">
-											<input type="text" id="defaultValue" name="defaultValue" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
-
-									</div>
-
 									<div class="layui-form-item">
-										<label for="desc" class="layui-form-label">
-											<span class="x-red">*</span>描述</label>
-										<div class="layui-input-inline" style="width:100px;">
-											<input type="text" id="desc" name="desc" required="" lay-verify="required" class="layui-input"></div>
-
-										<label for="isUseQuotationMarks" class="layui-form-label" style="width:100px;margin-left:30px">
-											<span class="x-red">*</span>是否使用引号</label>
-										<div class="layui-input-inline">
-											<input type="checkbox" name="isUseQuotationMarks" value="1"  lay-text="使用|不使用"  checked="" lay-skin="switch"></div>
-
-										<div class="layui-input-inline" style="width:100px;margin-left:10px">
-											<input type="checkbox" name="isMust" value="1" lay-skin="primary" title="必选项" checked="true">
+										<label for="content" class="layui-form-label">
+											<span class="x-red">*</span>模板</label>
+										<div class="layui-input-inline" style="width:800px;">
+											<textarea placeholder="请输入内容" id="content" name="content" class="layui-textarea"></textarea>
 										</div>
 									</div>
 								</form>
@@ -228,8 +187,6 @@
 		<script>
 			layui.use(['form', 'pearStep','element'], function() {
 				var   $ = layui.$, form = layui.form, pearStep = layui.pearStep;
-				initSelect($ ,form,'input-type','tool_parameter_type');
-				initSelect($ ,form,'input-prefixSplitSymbol','tool_input_and_output_prefix_split_symbol');
 				$('#toolId').val(getQueryVariable("toolId"));
 
 				pearStep.render({
@@ -254,6 +211,7 @@
 				$('.lay-step').children().eq(1).children().eq(1).addClass("step-item-head-active");
 				$('.lay-step').children().eq(2).children().eq(1).addClass("step-item-head-active");
 				$('.lay-step').children().eq(3).children().eq(1).addClass("step-item-head-active");
+				$('.lay-step').children().eq(4).children().eq(0).addClass("step-item-head-active");
 
 				//监听提交
 				$('#btn-cancel').click(function () {
@@ -271,7 +229,7 @@
 				//监听提交
 				form.on('submit(add)',function(data) {
 					$.ajax({
-						url:serviceUrl+'/tool/addParameter',
+						url:serviceUrl+'/tool/template/add',
 						method:'post',
 						data:data.field,
 						dataType:'JSON',
@@ -281,55 +239,29 @@
 								//发异步，把数据提交给php
 								$('#card-add').hide();
 								//$('#form')[0].reset();
+								window.location.href = "tool-list.html";
 
-								$.ajax({
-									url:serviceUrl+'/tool/parameter/pagelist',
+								/*$.ajax({
+									url:'http://localhost:8080/tool/template/pagelist',
 									method:'post',
 									data:{toolId:$('#toolId').val(),pageNum:1,pageSize:10},
 									dataType:'JSON',
 									success:function(res){
 										if(res.code='200'){
 											console.log(res);
-											//发异步，把数据提交给php
-											//$('#card-list').remove();
 											$("div[id^='card-list-']").remove();
 											$(res.data).each(function () {
 												$('#stepForm').append(
 														"<div class=\"layui-card\" id=\"card-list-\""+this.id+">"+
 														"<div id=\"card-list-body\" class=\"layui-card-body\" style=\"padding-top: 0px;height: 50px;margin:0 auto;overflow: hidden\">"+
 														"<div class=\"layui-form-item\" style=\"margin-top:10px;\">\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">名称：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.name+"</label></div>\n" +
-														"\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">类型：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.type+"</label></div>\n" +
-														"\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">前缀：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.prefix+"</label></div>\n" +
-														"\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">分隔符：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.prefixSplitSymbol+"</label></div>\n" +
-														"\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">默认值：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.defaultValue+"</label></div>\n" +
-
-														"\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">描述：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.desc+"</label></div>\n" +
-
-														"\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">是否使用引号：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.isUseQuotationMarks+"</label></div>\n" +
-
-														"\n" +
-														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">是否必须：</label>\n" +
-														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.isMust+"</label></div>\n" +
+														"\t\t\t\t\t\t\t\t\t<label class=\"layui-normal-label\">模板：</label>\n" +
+														"\t\t\t\t\t\t\t\t\t<div class=\"layui-input-inline\" style=\"width:50px;\"><label class=\"layui-normal-label\">"+this.content+"</label></div>\n" +
 
 														"\t\t\t\t\t\t\t\t</div>"+
 														"</div>"+
 														"</div>"
 												);
-												//$("#diagramContainer-left").append("<div  class=\'col-sm-12\'><div class=\'jnode-box jnode-rectangle bdc-primary\' data-template=\'jnode-template\' data-jnode=\'task\' id=\'"+this.id+"\' data-jnode-class=\'jnode-task bdc-primary\'><span style='font-size:8pt'>"+this.name+"</span></div> </div>");
 											});
 
 										} else {
@@ -339,7 +271,7 @@
 									error:function (res) {
 
 									}
-								}) ;
+								}) ;*/
 
 							} else {
 								alert(res.msg);
@@ -352,7 +284,7 @@
 					return false;
 				});
 
-				/*$('.pre').click(function() {
+				$('.pre').click(function() {
 					pearStep.pre('#stepForm');
 					return false;
 				});
@@ -360,14 +292,10 @@
 				$('.next').click(function() {
 					step.next('#stepForm');
 				    return false;
-				});*/
+				});
 
 				$('#btn-add').click(function () {
 					$('#card-add').show();
-				});
-
-				$('#btn-next').click(function () {
-					window.location.href = "step-5.html?toolId="+getQueryVariable("toolId");
 				});
 
 			});
