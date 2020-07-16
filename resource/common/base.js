@@ -8,7 +8,7 @@ function getQueryVariable(variable){
     return(false);
 }
 
-function initSelect($,form,ele,group){
+function initSelect($,form,ele,group,isShowAll){
     $.ajax({
         //拼接下拉选项
         url:serviceUrl+'/common/dic/group',
@@ -18,7 +18,9 @@ function initSelect($,form,ele,group){
         success: function (res) {
             if(res.code='200') {
                 var data = res.data;
-                $("#"+ele).append('<option value="">全部</option>');
+                if(isShowAll) {
+                    $("#" + ele).append('<option value="">全部</option>');
+                }
                 for (var i in data) {
                     $("#"+ele).append('<option value="' + data[i].code + '">' + data[i].name + '</option>');
                 }
