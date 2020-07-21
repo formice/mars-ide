@@ -516,6 +516,13 @@
       	tip(WARN,'请选择上传文件');
       }
   });
+
+	//--------------------新的上传组件-----------------
+	$('#easyUpload').click(function(e) {
+		$(this).addClass('active');
+		$('#uplaodbox').show();
+	});
+
 	//-----------------移动到---------------------
 	let moveTargetId = 1;  // 移动的目标父级的id
 	// 点击移动事件

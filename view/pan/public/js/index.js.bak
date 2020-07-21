@@ -521,9 +521,7 @@
 		$(this).addClass('active');
 		$('#uplaodbox').show();
 	});
-	/*$('#easyUpload').click(function(){
-		alert(1);
-	});*/
+
 
 	//-----------------移动到---------------------
 	let moveTargetId = 1;  // 移动的目标父级的id
