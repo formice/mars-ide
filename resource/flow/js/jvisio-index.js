@@ -6,31 +6,43 @@
   var areaId = '#diagramContainer-main';
 
   jsPlumb.ready(jsPlumbMain);
-	$.ajax({
-		url:serviceUrl+'/tool/list',
-		method:'post',
-		data:{"cate":1},
-		dataType:'JSON',
-		success:function(res){
-			if(res.code='200'){
-				console.log(res);
-				$(res.data).each(function () {
-					$("#diagramContainer-left").append("<div  class=\'col-sm-12\'><div class=\'jnode-box jnode-rectangle bdc-primary\' data-template=\'jnode-template\' data-jnode=\'task\' id=\'"+this.id+"\' data-jnode-class=\'jnode-task bdc-primary\'><span style='font-size:8pt'>"+this.name+"</span></div> </div>");
-				});
 
-				//定义可拖拽控件
-				$('.jnode-box').draggable({
-					helper: 'clone',
-					scope: 'ss'
-				});
-			} else {
-				alert(res.msg);
+  //初始化左侧工具
+  loadTools(null);
+
+  function loadTools(name){
+  	$.ajax({
+			url:serviceUrl+'/tool/list',
+			method:'post',
+			data:{"cate":1,"name":name,"limit":10},
+			dataType:'JSON',
+			success:function(res){
+				if(res.code='200'){
+					console.log(res);
+					$(res.data).each(function () {
+						$("#diagramContainer-left > #tool-container").append("<div  class=\'col-sm-12\'><div class=\'jnode-box jnode-rectangle bdc-primary\' data-template=\'jnode-template\' data-jnode=\'task\' id=\'"+this.id+"\' data-jnode-class=\'jnode-task bdc-primary\'><span style='font-size:8pt'>"+this.name+"</span></div> </div>");
+					});
+
+					//定义可拖拽控件
+					$('.jnode-box').draggable({
+						helper: 'clone',
+						scope: 'ss'
+					});
+				} else {
+					alert(res.msg);
+				}
+			},
+			error:function (res) {
+
 			}
-		},
-		error:function (res) {
+  	}) ;
+  }
 
-		}
-	}) ;
+  //工具搜索
+  $('#search-btn').click(function () {
+  	$("#diagramContainer-left > #tool-container > .col-sm-12").remove();
+  	loadTools($('#name').val());
+  });
 
   // 放入拖动节点
   function dropNode (dataset, ui, obj) {
@@ -41,7 +53,7 @@
 	console.info("dd:"+ui.draggable[0].id);
 	//dataObj.id = uuid.v1();
 	  dataObj.id = 'node-'+ui.draggable[0].id;
-	  alert(dataObj.id);
+	  //alert(dataObj.id);
 	  loadParam(ui.draggable[0].id);
 	  showRightArea();
 	dataObj.top = top;
