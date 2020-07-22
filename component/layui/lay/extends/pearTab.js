@@ -416,7 +416,7 @@ layui.define(['jquery', 'element'], function (exports) {
 		
 		var content = '<div class="layui-tab-content">';
 	
-	    var control = '<div class="layui-tab-control"><li class="layui-tab-prev layui-icon layui-icon-left"></li><li class="layui-tab-next layui-icon layui-icon-right"></li><li class="layui-tab-tool layui-icon layui-icon-down"><ul class="layui-nav" lay-filter=""><li class="layui-nav-item"><a href="javascript:;"></a><dl class="layui-nav-child">';
+	    var control = '<div class="layui-tab-control"><!--<li class="layui-tab-prev layui-icon layui-icon-left"></li>--><!--<li class="layui-tab-next layui-icon layui-icon-right"></li>--><li class="layui-tab-tool layui-icon layui-icon-down"><ul class="layui-nav" lay-filter=""><li class="layui-nav-item"><a href="javascript:;"></a><dl class="layui-nav-child">';
 	  
 	    // 处 理 选 项 卡 头 部
 	

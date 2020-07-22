@@ -2,14 +2,14 @@
 		"id": 1,
 		"title": "工具",
 		"type": 1,
-		"icon": "layui-icon layui-icon-console",
+		"icon": "layui-icon layui-icon-util",
 		"spread": true,
 		"href": "view/tool/tool-list.html"
 	},
 	{
 		"id": 4,
 		"title": "工作流",
-		"icon": "layui-icon layui-icon-set-fill",
+		"icon": "layui-icon layui-icon-template-1",
 		"type": 1,
 		"href": "view/flow/flow-list.html",
 		"spread": true
@@ -25,7 +25,7 @@
 	{
 		"id": 3,
 		"title": "任务",
-		"icon": "layui-icon layui-icon-face-cry",
+		"icon": "layui-icon layui-icon-form",
 		"type": 1,
 		"href": "view/task/task-list.html",
 		"spread": true
