@@ -4,9 +4,12 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSS3用户登录注册翻转式切换代码</title>
+<title>快捷登录</title>
 
-<link rel="stylesheet" type="text/css" href="../../resource/login/css/styles.css">
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+<script type="text/javascript" src="../../component/jquery.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
 
 </head>
 <body>
@@ -22,13 +25,13 @@
 			<div class="login-form">
 				<div class="sign-in-htm">
 					<div class="group">
-						<label for="user" class="label">手机号码</label>
-						<input id="user" type="text" class="input" style=""/>
+						<label for="mobile" class="label">手机号码</label>
+						<input id="mobile" type="text" class="input" style=""/>
 					</div>
 					<div class="group">
 						<label for="pass" class="label">验证码</label>
 						<input id="pass" type="text" class="input" style="width:70%;" />
-						<input type="submit" class="button" style="width:28%;border-radius: 20px;padding-left: 15px;" value="发送验证码" />
+						<input type="submit" id="btn-verfi-code" class="button" style="width:28%;border-radius: 20px;padding-left: 15px;" value="发送验证码" />
 						<!--<button class="button" style="width:20%;" >发送</button>-->
 					</div>
 					<!--<div class="group">
