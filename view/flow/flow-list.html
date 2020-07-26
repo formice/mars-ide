@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<title></title>
 		<script type="text/javascript" src="../../resource/common/constant.js"></script>
+		<script type="text/javascript" src="../../resource/common/base.js"></script>
 		<link href="../../component/layui/css/layui.css" rel="stylesheet" />
 		<link href="../../admin/css/pearCommon.css" rel="stylesheet" />
 	</head>
@@ -100,6 +101,8 @@
 		            cols: cols ,
 		            skin: 'line',
 		            toolbar: '#toolbar',
+					//where: {ticket: getTicket()},
+					headers:{ticket: getTicket()},
 		            defaultToolbar: [{
 		                layEvent: 'refresh',
 		                icon: 'layui-icon-refresh',
@@ -111,6 +114,9 @@
 					,response: {
 						statusName: 'code' ,//规定数据状态的字段名称，默认：code
 						statusCode: 200 //规定成功的状态码，默认：0
+					}
+					,done: function(res, curr, count){
+						loginInterceptor(res.code);
 					}
 		        });
 		

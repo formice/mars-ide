@@ -183,7 +183,9 @@ let renderOpera = (function(){
 			contentType: 'application/json', //需要加contentType
 			data: {"folder":folder},
 			dataType: 'JSON',
+			headers:{ticket: getTicket()},
 			success: function (res) {
+				loginInterceptor(res.code);
 				if (res.code = '200') {
 					callback(res.data);
 				} else {

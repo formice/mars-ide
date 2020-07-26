@@ -233,7 +233,9 @@
 						method:'post',
 						data:data.field,
 						dataType:'JSON',
+						headers:{ticket: getTicket()},
 						success:function(res){
+							loginInterceptor(res.code);
 							if(res.code='200'){
 								console.log(res);
 								//发异步，把数据提交给php
@@ -307,7 +309,9 @@
 						method:'post',
 						data: {'group':group},
 						dataType:'JSON',
+						headers:{ticket: getTicket()},
 						success: function (res) {
+							loginInterceptor(res.code);
 							if(res.code='200') {
 								var data = res.data;
 								for (var i in data) {

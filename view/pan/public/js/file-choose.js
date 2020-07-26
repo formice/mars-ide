@@ -256,7 +256,9 @@
 				contentType: 'application/json', //需要加contentType
 				dataType: 'JSON',
 				data: JSON.stringify(delectIds),
+				headers:{ticket: getTicket()},
 				success: function(res) {
+					loginInterceptor(res.code);
 					if (res.code===200) {
 						//dataOpera.delectItemByIds(delectIdItem);
 						//treeMenu.html(renderOpera.createTreeHtml(initTree, initTree));
@@ -420,7 +422,9 @@
 					data: {
 						folder: path+folderName+"/"
 					},
+					headers:{ticket: getTicket()},
 					success: function(res) {
+						loginInterceptor(res.code);
 						if (res.code === 200) {
 							/*let o = {
 								last_name: folderName,
@@ -724,7 +728,9 @@
 			contentType: 'application/json', //需要加contentType
 			data: {"folder":folder},
 			dataType: 'JSON',
+			headers:{ticket: getTicket()},
 			success: function (res) {
+				loginInterceptor(res.code);
 				if (res.code = '200') {
 					callback(res.data);
 				} else {

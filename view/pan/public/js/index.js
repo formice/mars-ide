@@ -246,7 +246,9 @@
 				contentType: 'application/json', //需要加contentType
 				dataType: 'JSON',
 				data: JSON.stringify(delectIds),
+				headers:{ticket: getTicket()},
 				success: function(res) {
+					loginInterceptor(res.code);
 					if (res.code===200) {
 						//dataOpera.delectItemByIds(delectIdItem);
 						//treeMenu.html(renderOpera.createTreeHtml(initTree, initTree));
@@ -410,7 +412,9 @@
 					data: {
 						folder: path+folderName+"/"
 					},
+					headers:{ticket: getTicket()},
 					success: function(res) {
+						loginInterceptor(res.code);
 						if (res.code === 200) {
 							/*let o = {
 								last_name: folderName,
@@ -489,7 +493,9 @@
 	    		data: fData,
 	    		processData: false,
 	    		contentType: false,
+				headers:{ticket: getTicket()},
 	    		success: function(data) {
+					loginInterceptor(data.code);
 	    			if (data.code === 200) {
 	    				tip(OK,'上传成功');
 	    				/*let {file_id,last_name,type,hash_name} = data.data;
@@ -720,8 +726,10 @@
 			method: 'get',
 			contentType: 'application/json', //需要加contentType
 			data: {"folder":folder},
+			headers:{ticket: getTicket()},
 			dataType: 'JSON',
 			success: function (res) {
+				loginInterceptor(res.code);
 				if (res.code = '200') {
 					callback(res.data);
 				} else {

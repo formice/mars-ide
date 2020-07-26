@@ -9,12 +9,12 @@ $(function(){
             return false;
         }
         settime();
-        /*$.ajax({
+        $.ajax({
             async:false,
-            type: "GET",
-            url: "{:U('User/sms')}",
+            type: "POST",
+            url: serviceUrl+"/sms/send/code",
             data: {mobile:$("#mobile").val()},
-            dataType: "json",
+            //dataType: "json",
             async:false,
             success:function(data){
                 console.log(data);
@@ -23,7 +23,7 @@ $(function(){
             error:function(err){
                 console.log(err);
             }
-        });*/
+        });
     });
     var countdown=60;
     var _generate_code = $("#btn-verfi-code");
@@ -42,4 +42,34 @@ $(function(){
             settime();
         },1000);
     }
+
+    $("#btn-login").click(function(){
+        if($("#mobile").val() == "" || isNaN($("#mobile").val()) || $("#mobile").val().length != 11 ){
+            alert("请填写正确的手机号！");
+            return false;
+        }
+        if($("#verfi-code").val() == "" || isNaN($("#verfi-code").val()) || $("#verfi-code").val().length != 4 ){
+            alert("请填写正确的验证码！");
+            return false;
+        }
+        $.ajax({
+            async:false,
+            type: "POST",
+            url: serviceUrl+"/uc/login/quick",
+            data: {mobile:$("#mobile").val(),code:$("#verfi-code").val()},
+            //dataType: "json",
+            async:false,
+            success:function(res){
+                console.log(res);
+                if(res.code == 200){
+                    //设置登录token
+                    setTicket(res.data);
+                    window.location.href="../../index.html"
+                }
+            },
+            error:function(err){
+                console.log(err);
+            }
+        });
+    });
 })

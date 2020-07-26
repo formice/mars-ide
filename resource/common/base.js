@@ -15,7 +15,9 @@ function initSelect($,form,ele,group,isShowAll){
         method:'post',
         data: {'group':group},
         dataType:'JSON',
+        headers:{ticket: getTicket()},
         success: function (res) {
+            loginInterceptor(res.code);
             if(res.code='200') {
                 var data = res.data;
                 if(isShowAll) {
@@ -40,4 +42,18 @@ function addTab(id,title,url){
 
 function closeTab(id){
     window.parent.layui.element.tabDelete("content",id);
+}
+
+function setTicket(ticket){
+    sessionStorage.setItem('USER_KEY', ticket);
+}
+
+function getTicket(){
+    return sessionStorage.getItem('USER_KEY');
+}
+
+function loginInterceptor(code){
+    if(code == 10000000){
+        top.location='../login/index.html';
+    }
 }

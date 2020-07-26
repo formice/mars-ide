@@ -144,7 +144,9 @@
           method:'post',
           //data:data.field,
           dataType:'JSON',
+          headers:{ticket: getTicket()},
           success:function(res){
+            loginInterceptor(res.code);
             if(res.code='200'){
               console.log(res);
 
@@ -281,7 +283,9 @@
             contentType: 'application/json', //需要加contentType
             data: JSON.stringify(jsonObj),
             dataType: 'JSON',
+            headers:{ticket: getTicket()},
             success: function (res) {
+              loginInterceptor(res.code);
               if (res.code = '200') {
                 console.log(res);
                 //发异步，把数据提交给php
