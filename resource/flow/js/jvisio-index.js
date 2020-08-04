@@ -16,7 +16,9 @@
 			method:'post',
 			data:{"cate":1,"name":name,"limit":10},
 			dataType:'JSON',
+			headers:{ticket: getTicket()},
 			success:function(res){
+				loginInterceptor(res.code);
 				if(res.code='200'){
 					console.log(res);
 					$(res.data).each(function () {
@@ -167,7 +169,9 @@
 			method: 'post',
 			data: {"toolId": toolId},
 			dataType: 'JSON',
+			headers:{ticket: getTicket()},
 			success: function (res) {
+				loginInterceptor(res.code);
 				if (res.code = '200') {
 					console.log(res);
 					$(res.data).each(function () {
@@ -351,7 +355,9 @@
 			data:JSON.stringify(serliza),
 			dataType:'json',
 			async:false,
+			headers:{ticket: getTicket()},
 			success:function(res){
+				loginInterceptor(res.code);
 				if(res.code='200'){
 					//console.log(res);
 					var url = "flow-list.html";
