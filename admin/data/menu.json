@@ -19,7 +19,7 @@
 		"title": "数据",
 		"icon": "layui-icon layui-icon-component",
 		"type": 1,
-		"href": "view/pan/views/index.html",
+		"href": "view/pan/index.html",
 		"spread": true
 	},
 	{
