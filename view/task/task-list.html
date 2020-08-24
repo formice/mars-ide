@@ -99,6 +99,10 @@
     {{!d.endTime?'':layui.util.toDateString(d.endTime, 'yyyy-MM-dd HH:mm:ss') }}
 </script>
 
+<script type="text/html" id="task-name">
+    <a style="color: #1E9FFF!important;" href="../pan/task-result.html?taskId={{d.id}}">{{d.name}}</a>
+</script>
+
 <script src="../../component/layui/layui.js"></script>
 <script>
     layui.use(['table','form','jquery','element'],function () {
@@ -112,7 +116,7 @@
         let cols = [
             [
                 /*{type:'checkbox'},*/
-                {title: '任务名称', field: 'name', align:'center', width:250},
+                {title: '任务名称', field: 'name', align:'center', width:250,templet:"#task-name"},
                 /*{title: '任务描述', field: 'desc', align:'center'},*/
                 {title: '进度', field: 'process', align:'center', width:300, templet:'#task-process'},
                 {title: '状态', field: 'status', align:'center', width:100,templet:"#task-status"},

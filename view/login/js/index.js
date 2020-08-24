@@ -1,5 +1,6 @@
 $(function(){
     $("#btn-verfi-code").click(function(){
+        clearInterval(timer);
         var disabled = $("#btn-verfi-code").attr("disabled");
         if(disabled){
             return false;
@@ -8,7 +9,7 @@ $(function(){
             alert("请填写正确的手机号！");
             return false;
         }
-        settime();
+        //settime();
         $.ajax({
             async:false,
             type: "POST",
@@ -27,8 +28,10 @@ $(function(){
     });
     var countdown=60;
     var _generate_code = $("#btn-verfi-code");
+    var timer;
     function settime() {
         if (countdown == 0) {
+            clearInterval(timer);
             _generate_code.attr("disabled",false);
             _generate_code.val("获取验证码");
             countdown = 60;
@@ -38,7 +41,7 @@ $(function(){
             _generate_code.val("重新发送(" + countdown + ")");
             countdown--;
         }
-        setTimeout(function() {
+        timer = setTimeout(function() {
             settime();
         },1000);
     }

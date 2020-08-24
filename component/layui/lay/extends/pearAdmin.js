@@ -58,12 +58,14 @@ layui.define(['table', 'jquery', 'element', 'form', 'pearTab', 'pearMenu', 'pear
 					index: 0,
 					tabMax: 20,
 					data: [{
-						id: '11',
+						id: '2',
 						url: option.index,
-						title: '首页',
+						title: '数据',
 						close: false
 					}] //初始化数据
 				});
+				//add by fb 2020.08.08 将数据盘 当作首页，默认"光标选中"
+				sideMenu.selectItem(2);
 
 				// 选 项 卡 切 换 API 文 档
 				bodyTab.click(function(id) {
@@ -206,9 +208,15 @@ layui.define(['table', 'jquery', 'element', 'form', 'pearTab', 'pearMenu', 'pear
 
 			var menu = localStorage.getItem("theme-menu");
 
-			this.colorSet(color);
+			//this.colorSet(color);
 
-			this.menuSkin(menu);
+			//add by fb 2020.08.08 默认使用蓝色作为color
+			this.colorSet("#1E9FFF")
+
+			//this.menuSkin(menu);
+
+			//add by fb 2020.08.08 默认使用light-theme作为theme
+			this.menuSkin("light-theme");
 		}
 
 

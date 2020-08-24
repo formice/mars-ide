@@ -6,26 +6,66 @@
 	let breadNav = $('.bread-nav');
 	let folders = $('.folders');
 	let checkedAll = $('.checkedAll');
-	//加载左侧导航
-	load("",function(data){
-		$(data.CommonPrefixes).each(function () {
-			$('#tree-menu-ul').append(
-				"<li>\n" +
-				"<div name=\""+this.name+"\" path=\""+this.path+"\" custom-hash=\"1587274866066-新建文件夹\" style=\"padding-left: 32px;\" class=\"tree-title\"\n" +
 
-				"<span><i class=\"iconfont\"></i><span class=\"item-title\">"+this.name+"</span></span>\n" +
-				"</div>\n" +
-				"</li>");
-		});
 
-		//页面加载，默认选中第一个文件夹
-		treeMenu.find('li:first').click();
+	$.ajax({
+		url: serviceUrl+'/task/result/path',
+		method: 'post',
+		data: {"taskId":getQueryVariable("taskId")},
+		headers:{ticket: getTicket()},
+		success: function (res) {
+			loginInterceptor(res.code);
+			if (res.code = '200') {
+
+				let name = $(this).find('div').attr('name');
+				//let path = res.data;
+				let path = "18986127077/WGS/"
+				renderOpera.addStyleBgById(name);
+				checkedAll.removeClass('checked');
+				//breadNav.html(renderOpera.createNavPathHtml(path));
+				breadNav.html(renderOpera.createNavPathHtml(name,path));
+				renderOpera.createFilesHtml(path,function(html){
+					folders.html(html);
+				});
+				e.stopPropagation();
+			} else {
+				alert(res.msg);
+			}
+		},
+		error: function (data) {
+
+		}
 	});
-	// ----------------退出登陆-----------
-	$('#logout').on('click', (e)=>{
-		window.localStorage.removeItem('tokenpanyanzi');
-		location.href = '/login';
-	})
+
+	$('#download').click(function(){
+		let selectedI = folders.find('i.checked');
+		if(selectedI.length > 0){
+			$(this).addClass('active');
+
+			let path = breadNav.find('span:last').attr('path');
+			let selectedI = $('.file-item.active');
+			let delectIds = [];
+			selectedI.each((index,item) => {
+				var type = $(item).attr('type');
+				if (type == 'folder') {
+					delectIds.push(path + $(item).find('span:first').text() + "/");
+				}else if(type == 'file'){
+					delectIds.push(path + $(item).find('span:first').text());
+				}
+			});
+
+			delectIds.forEach((item,index,array)=>{
+				var folder = delectIds[index];
+				//alert(folder);
+				window.location.href = serviceUrl+"/upload/download?folder="+folder;
+			});
+
+		}else{
+			//tip(WARN,'请选择下载文件');
+			alert('请选择下载文件');
+		}
+	});
+
 
   // -----------------树形结构交互------------
 	treeMenu.on('click',"li",function (e){

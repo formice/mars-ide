@@ -1,4 +1,13 @@
-[{
+[
+	{
+		"id": 2,
+		"title": "数据",
+		"icon": "layui-icon layui-icon-component",
+		"type": 1,
+		"href": "view/pan/index.html",
+		"spread": true
+	},
+	{
 		"id": 1,
 		"title": "工具",
 		"type": 1,
@@ -15,59 +24,12 @@
 		"spread": true
 	},
 	{
-		"id": 2,
-		"title": "数据",
-		"icon": "layui-icon layui-icon-component",
-		"type": 1,
-		"href": "view/pan/index.html",
-		"spread": true
-	},
-	{
 		"id": 3,
 		"title": "任务",
 		"icon": "layui-icon layui-icon-form",
 		"type": 1,
 		"href": "view/task/task-list.html",
 		"spread": true
-	},
-	 {
-		"id": "error",
-		"title": "错误页面",
-		"icon": "layui-icon layui-icon-auz",
-		"type": 0,
-		"href": "",
-		"spread": true,
-		"children": [{
-				"id": 403,
-				"title": "403",
-				"icon": "layui-icon layui-icon-face-smile",
-				"type": 1,
-				"openType": "_iframe",
-				"href": "view/error/403.html",
-				"spread": true
-			},
-			{
-				"id": 404,
-				"title": "404",
-				"icon": "layui-icon layui-icon-face-cry",
-				"type": 1,
-				"openType": "_iframe",
-				"href": "view/error/404.html",
-				"spread": true
-			},
-
-			{
-				"id": 500,
-				"title": "500",
-				"icon": "layui-icon layui-icon-face-cry",
-				"type": 1,
-				"openType": "_iframe",
-				"href": "view/error/500.html",
-				"spread": true
-			}
-
-		]
 	}
-
 
 ]
