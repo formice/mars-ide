@@ -306,7 +306,8 @@ layui.define(['jquery', 'element'], function (exports) {
 		}
 		element.tabChange(this.option.elem,opt.id);
 		//点击左侧导航栏，实现tab刷新 add by fb 2020.07.13 ...............................
-		$(".layui-tab[lay-filter='"+this.option.elem+"'] .layui-tab-content .layui-show").find("iframe")[0].contentWindow.location.reload(true);
+		//$(".layui-tab[lay-filter='"+this.option.elem+"'] .layui-tab-content .layui-show").find("iframe")[0].contentWindow.location.reload(true);
+		$(".layui-tab[lay-filter='"+this.option.elem+"'] .layui-tab-content .layui-show").find("iframe")[0].contentWindow.location.href=opt.url;
 		//.................................................................
 	}
 	

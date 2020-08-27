@@ -18,8 +18,8 @@
 			if (res.code = '200') {
 
 				let name = $(this).find('div').attr('name');
-				//let path = res.data;
-				let path = "18986127077/WGS/"
+				let path = res.data;
+				//let path = "18986127077/WGS/"
 				renderOpera.addStyleBgById(name);
 				checkedAll.removeClass('checked');
 				//breadNav.html(renderOpera.createNavPathHtml(path));
