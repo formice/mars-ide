@@ -72,7 +72,7 @@
 		<script type="text/html" id="user-createTime">
 		    {{layui.util.toDateString(d.createTime, 'yyyy-MM-dd')}}
 		</script>
-		
+
 		<script src="../../component/layui/layui.js"></script>
 		<script>
 		    layui.use(['table','form','jquery','pearTab'],function () {
@@ -80,16 +80,16 @@
 		        let form = layui.form;
 		        let $ = layui.jquery;
 				var pearTab = layui.pearTab;
-		
+
 		        let MODULE_PATH = "operate/";
-		
+
 		        let cols = [
 		            [
 						{title: '序号', field: 'id', align:'center'},
-		                {title: '名称', field: 'name', align:'center', width:120},
+		                {title: '名称', field: 'name', align:'center'},
 		                {title: '描述', field: 'desc', align:'center'},
 						{title: '创建时间', field: 'createTime', align:'center'},
-						{title: '操作', toolbar: '#bar', align:'center', width:130}
+						{title: '操作', toolbar: '#bar', align:'center'}
 		            ]
 		        ]
 		
