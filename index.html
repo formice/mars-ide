@@ -128,7 +128,10 @@
 					headers:{ticket: getTicket()},
 					//dataType: 'JSON',
 					success: function (res) {
-						loginInterceptor(res.code);
+						//loginInterceptor(res.code);
+						if(res.code == 10000000){
+							top.location='view/login/index.html';
+						}
 						if (res.code = '200') {
 							$('#user-name').text(res.data.name);
 						} else {

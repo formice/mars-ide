@@ -35,6 +35,12 @@
 				margin-bottom: 10px;
 			}
 
+			.layui-form-item {
+				margin-bottom: 0px;
+				clear: both;
+				*zoom: 1;
+			}
+
 			.layui-normal-label {
 				float: left;
 				display: block;
@@ -92,6 +98,22 @@
 										<label class="layui-form-label">名称:</label>
 										<div class="layui-input-block">
 											<input type="text" name="name" placeholder="请填写工具名称" class="layui-input" lay-verify="required" required />
+
+										</div>
+									</div>
+
+									<div class="layui-form-item">
+										<label class="layui-form-label">描述:</label>
+										<div class="layui-input-block">
+											<input type="text" name="desc" placeholder="请填写工具描述" class="layui-input" lay-verify="required" required />
+
+										</div>
+									</div>
+
+									<div class="layui-form-item">
+										<label class="layui-form-label">镜像:</label>
+										<div class="layui-input-block">
+											<input type="text" name="dockerImageUrl" placeholder="请填写镜像地址" class="layui-input" lay-verify="required" required />
 
 										</div>
 									</div>
