@@ -723,7 +723,7 @@
 
 	function load(folder,callback){
 		$.ajax({
-			url: serviceUrl+'/pan/file',
+			url: serviceUrl+'/pan/folder/root',
 			method: 'get',
 			contentType: 'application/json', //需要加contentType
 			data: {"folder":folder},
