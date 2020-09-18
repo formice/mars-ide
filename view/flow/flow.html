@@ -76,6 +76,20 @@
       margin-top:5px;
     }
 
+    .select-label{
+
+      text-align: left;
+      vertical-align: middle;
+      /*float: left;*/
+      font-size: 14px;
+      color: #606266;
+      line-height: 40px;
+      padding: 0 12px 0 0;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      margin-top:5px;
+    }
+
     .input-content{
       background-color: #f5f7fa;
       border-color: #e4e7ed;
@@ -100,6 +114,12 @@
       transition: border-color .2s cubic-bezier(.645,.045,.355,1);
       width: 150px;
       margin-top:5px;
+    }
+
+    .select-content{
+      height: 30px;
+      line-height: 30px;
+      width: 80px;
     }
 
     .flow-btn{
@@ -223,6 +243,43 @@
                 <!--<label class="input-label">名称:</label><input type="text" value="" class="input-content" style="height:32px"/>
                 <label class="input-label">描述:</label><input type="text" name="desc" placeholder="请填写描述" value="" class="input-content" style="height:32px"/>-->
               </div>
+              <div class="ef-node-form-header">
+                输入项关联
+              </div>
+              <div id="rela-content">
+                <div id="flow-rela-id1">
+                  <label class="select-label">ref:</label>
+                  <select class="input-content select-content" id="tool-select" onClick="">
+                    <option value ="volvo">Volvo</option>
+                    <option value ="saab">Saab</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                  </select>
+                  <select class="input-content select-content" id="output-select">
+                    <option value ="volvo">Volvo</option>
+                    <option value ="saab">Saab</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                  </select>
+
+                </div>
+
+                <div id="flow-rela-id2">
+                  <label class="select-label">ref:</label>
+                  <select class="input-content select-content" id="tool-select1">
+                    <option value ="volvo">Volvo</option>
+                    <option value ="saab">Saab</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                  </select>
+                  <select class="input-content select-content" id="output-select1">
+                    <option value ="volvo">Volvo</option>
+                    <option value ="saab">Saab</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                  </select>
+                 </div>
+              </div>
             </form>
         </div>
 
@@ -314,11 +371,28 @@
 
         params.push(param);
       });
+      //tool-261:[{"id":"54","toolId":"271","value":"HaplotypeCaller","name":"method"}]
       localStorage.setItem("tool-"+params[0].toolId,JSON.stringify(params));
-      //localStorage.setItem(params[0].toolId,"test");
       //alert(JSON.stringify(params));
+      $('#param-content').children().remove();
 
+      //設置關聯項
+      //tool-261:[{}]
+      //var relas = [輸入項ID，工具ID，關聯工具ID，關聯輸出項ID];
+      var relas =[];
+      $("div[id^='flow-rela-']").each(function(){
+        var rela = {};
 
+        rela.busiId = $(this).find("input[id^='id-']").val();
+        rela.toolId = $(this).find("input[id^='toolId-']").val();
+        rela.relaToolId = $("#tool-select-" + rela.id).children('option:selected').val();
+        rela.relaBusiId = $("#output-select-" + rela.id).children('option:selected').val();
+
+        relas.push(rela);
+      });
+
+      localStorage.setItem("tool-rela-"+relas[0].toolId,JSON.stringify(relas));
+      alert(JSON.stringify(relas));
       $('#param-content').children().remove();
     }
 

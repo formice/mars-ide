@@ -54,8 +54,8 @@
     var top = parseInt(ui.offset.top - $(obj).offset().top);
 	console.info("dd:"+ui.draggable[0].id);
 	//dataObj.id = uuid.v1();
-	  dataObj.id = 'node-'+ui.draggable[0].id;
-	  //alert(dataObj.id);
+	  dataObj.id = 'node-'+ui.draggable[0].id+"-"+uuid.v1().replace(new RegExp("-","g"),"");
+	  alert(dataObj.id);
 	  loadParam(ui.draggable[0].id);
 	  showRightArea();
 	dataObj.top = top;
@@ -132,7 +132,8 @@
 			}).on("dblclick", ".jnode-box",function(){
 				//鼠标双击
 				var text = $(this).text();
-				loadParam(id.replace('node-',''));
+				//loadParam(id.replace('node-',''));
+				loadParam(id.split("-")[1]);
 				showRightArea();
 			});
 
@@ -140,6 +141,88 @@
 
   function showRightArea(){
 	  $('#my-link').trigger("click");
+  }
+
+  function loadRela(toolId){
+	  $.ajax({
+		  url: serviceUrl+'/tool/input/list',
+		  method: 'post',
+		  data: {"toolId": toolId},
+		  dataType: 'JSON',
+		  headers:{ticket: getTicket()},
+		  success: function (res) {
+			  loginInterceptor(res.code);
+			  if (res.code = '200') {
+				  console.log(res);
+				  $(res.data).each(function () {
+					  $("#rela-content").append(
+					  	  "<div id=\"flow-rela-"+this.id+"\">"+
+						  "<input type=\"hidden\" id=\"id-" + val.id + "\" value=\"" + val.id + "\" />" +
+						  "<input type=\"hidden\" id=\"toolId-" + val.id + "\" value=\"" + val.toolId + "\" />" +
+						  "<label class=\"select-label\">"+this.name+":</label>\n" +
+						  "                <select class=\"input-content select-content\" onChange=\"toolSelectChange("+this.id+")\" onClick=\"initToolSelect(\"+this.id+\");\" id=\"tool-select-"+this.id+"\">\n" +
+						  "                  <option value =\"-1\">工具</option>\n" +
+						  "                </select>\n" +
+						  "                <select class=\"input-content select-content\" id=\"output-select-"+this.id+"\">\n" +
+						  "                  <option value =\"-1\">輸出項</option>\n" +
+						  "                </select>\n" +
+						  "</div>"
+					  );
+				  });
+			  } else {
+				  alert(res.msg);
+			  }
+		  },
+		  error: function (res) {
+
+		  }
+	  });
+  }
+
+  function initToolSelect(id){
+	  $.ajax({
+		  //拼接下拉选项
+		  url:serviceUrl+'/tool/list',
+		  method:'post',
+		  //data: {'toolId':toolId},
+		  dataType:'JSON',
+		  headers:{ticket: getTicket()},
+		  success: function (res) {
+			  loginInterceptor(res.code);
+			  if(res.code='200') {
+				  var data = res.data;
+				  $("#tool-select-" + id).append('<option value="">工具</option>');
+				  for (var i in data) {
+					  $("#tool-select-" + id).append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+				  }
+			  }
+		  }
+	  });
+  }
+  function toolSelectChange(id){
+	  var selectToolId = $("#tool-select-" + id).children('option:selected').val();
+	  initToolOutputSelect(selectToolId,id);
+  }
+
+  function initToolOutputSelect(toolId,id){
+	$.ajax({
+		//拼接下拉选项
+		url:serviceUrl+'/tool/output/list',
+		method:'post',
+		data: {'toolId':toolId},
+		dataType:'JSON',
+		headers:{ticket: getTicket()},
+		success: function (res) {
+			loginInterceptor(res.code);
+			if(res.code='200') {
+				var data = res.data;
+				$("output-select-" + id).append('<option value="">輸出項</option>');
+				for (var i in data) {
+					$("output-select-" + id).append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+				}
+			}
+		}
+	});
   }
 
   function loadParam(toolId){
@@ -329,7 +412,9 @@
 		var params = [];
 		$.each(nodes,function(index,val){
 			//alert(val.nodeId.replace("node-",""));
-			var str = localStorage.getItem("tool-"+val.nodeId.replace("node-",""));
+
+			//var str = localStorage.getItem("tool-"+val.nodeId.replace("node-",""));
+			var str = localStorage.getItem("tool-"+val.nodeId.split("-")[1]);
 			if(str != null && str !='null' && str !='') {
 				params = params.concat(JSON.parse(str));
 			}
@@ -345,9 +430,10 @@
 			//lineDescs:lineDescs
 		}
 		console.log(JSON.stringify(serliza));
-		console.log(lines[0].fromId);
-		console.log(nodes[0].nodeId);
+		//console.log(lines[0].fromId);
+		//console.log(nodes[0].nodeId);
 		//console.log(lineDescs[0]);
+		alert(JSON.stringify(serliza));
 		$.ajax({
 			url:serviceUrl+'/flow/add',
 			method:'post',
