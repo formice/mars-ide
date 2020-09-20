@@ -14,7 +14,7 @@
   	$.ajax({
 			url:serviceUrl+'/tool/list',
 			method:'post',
-			data:{"cate":1,"name":name,"limit":10},
+			data:{"cate":1,"name":name,"limit":15},
 			dataType:'JSON',
 			headers:{ticket: getTicket()},
 			success:function(res){
@@ -55,8 +55,9 @@
 	console.info("dd:"+ui.draggable[0].id);
 	//dataObj.id = uuid.v1();
 	  dataObj.id = 'node-'+ui.draggable[0].id+"-"+uuid.v1().replace(new RegExp("-","g"),"");
-	  alert(dataObj.id);
+	  //alert(dataObj.id);
 	  loadParam(ui.draggable[0].id);
+	  loadRela(ui.draggable[0].id);
 	  showRightArea();
 	dataObj.top = top;
     dataObj.left = left;//$('#diagramContainer-left').outerWidth();
@@ -134,6 +135,7 @@
 				var text = $(this).text();
 				//loadParam(id.replace('node-',''));
 				loadParam(id.split("-")[1]);
+				loadRela(id.split("-")[1]);
 				showRightArea();
 			});
 
@@ -157,10 +159,10 @@
 				  $(res.data).each(function () {
 					  $("#rela-content").append(
 					  	  "<div id=\"flow-rela-"+this.id+"\">"+
-						  "<input type=\"hidden\" id=\"id-" + val.id + "\" value=\"" + val.id + "\" />" +
-						  "<input type=\"hidden\" id=\"toolId-" + val.id + "\" value=\"" + val.toolId + "\" />" +
+						  "<input type=\"hidden\" id=\"id-" + this.id + "\" value=\"" + this.id + "\" />" +
+						  "<input type=\"hidden\" id=\"toolId-" + this.id + "\" value=\"" + this.toolId + "\" />" +
 						  "<label class=\"select-label\">"+this.name+":</label>\n" +
-						  "                <select class=\"input-content select-content\" onChange=\"toolSelectChange("+this.id+")\" onClick=\"initToolSelect(\"+this.id+\");\" id=\"tool-select-"+this.id+"\">\n" +
+						  "                <select class=\"input-content select-content\" onChange=\"toolSelectChange("+this.id+")\" onClick=\"initToolSelect("+this.id+");\" id=\"tool-select-"+this.id+"\">\n" +
 						  "                  <option value =\"-1\">工具</option>\n" +
 						  "                </select>\n" +
 						  "                <select class=\"input-content select-content\" id=\"output-select-"+this.id+"\">\n" +
@@ -179,51 +181,7 @@
 	  });
   }
 
-  function initToolSelect(id){
-	  $.ajax({
-		  //拼接下拉选项
-		  url:serviceUrl+'/tool/list',
-		  method:'post',
-		  //data: {'toolId':toolId},
-		  dataType:'JSON',
-		  headers:{ticket: getTicket()},
-		  success: function (res) {
-			  loginInterceptor(res.code);
-			  if(res.code='200') {
-				  var data = res.data;
-				  $("#tool-select-" + id).append('<option value="">工具</option>');
-				  for (var i in data) {
-					  $("#tool-select-" + id).append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-				  }
-			  }
-		  }
-	  });
-  }
-  function toolSelectChange(id){
-	  var selectToolId = $("#tool-select-" + id).children('option:selected').val();
-	  initToolOutputSelect(selectToolId,id);
-  }
 
-  function initToolOutputSelect(toolId,id){
-	$.ajax({
-		//拼接下拉选项
-		url:serviceUrl+'/tool/output/list',
-		method:'post',
-		data: {'toolId':toolId},
-		dataType:'JSON',
-		headers:{ticket: getTicket()},
-		success: function (res) {
-			loginInterceptor(res.code);
-			if(res.code='200') {
-				var data = res.data;
-				$("output-select-" + id).append('<option value="">輸出項</option>');
-				for (var i in data) {
-					$("output-select-" + id).append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-				}
-			}
-		}
-	});
-  }
 
   function loadParam(toolId){
   	var str = localStorage.getItem("tool-"+toolId);

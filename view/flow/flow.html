@@ -74,11 +74,13 @@
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin-top:5px;
+      width:50px;
+      overflow: hidden;
     }
 
     .select-label{
 
-      text-align: left;
+      text-align: right;
       vertical-align: middle;
       /*float: left;*/
       font-size: 14px;
@@ -88,6 +90,8 @@
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin-top:5px;
+      width:50px;
+      overflow: hidden;
     }
 
     .input-content{
@@ -247,7 +251,7 @@
                 输入项关联
               </div>
               <div id="rela-content">
-                <div id="flow-rela-id1">
+                <!--<div id="flow-rela-id1">
                   <label class="select-label">ref:</label>
                   <select class="input-content select-content" id="tool-select" onClick="">
                     <option value ="volvo">Volvo</option>
@@ -261,24 +265,7 @@
                     <option value="opel">Opel</option>
                     <option value="audi">Audi</option>
                   </select>
-
-                </div>
-
-                <div id="flow-rela-id2">
-                  <label class="select-label">ref:</label>
-                  <select class="input-content select-content" id="tool-select1">
-                    <option value ="volvo">Volvo</option>
-                    <option value ="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                  </select>
-                  <select class="input-content select-content" id="output-select1">
-                    <option value ="volvo">Volvo</option>
-                    <option value ="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                  </select>
-                 </div>
+                </div>-->
               </div>
             </form>
         </div>
@@ -302,6 +289,80 @@
 
 </body>
 <script>
+  function initToolSelect(id){
+    //alert(id);
+
+    var nodes = [];
+    $("#diagramContainer-main .jnode-panel").each(function (idx, elem) {
+      var $elem = $(elem);
+      console.log($elem);
+      var nodeId = $elem.attr('id');
+      var blockContent = $elem.children('.node-text').html();
+      nodes.push({
+        nodeId: nodeId,
+        blockContent: blockContent,
+        type: $elem.data("type"),
+        blockX: parseInt($elem.css("left"), 10),
+        blockY: parseInt($elem.css("top"), 10),
+        width: parseInt($elem.width(), 10) + 24,
+        height: parseInt($elem.height(), 10) + 16,
+      });
+    });
+    console.log(nodes);
+    alert(JSON.stringify(nodes));
+
+    $.ajax({
+      //拼接下拉选项
+      url:serviceUrl+'/tool/list',
+      method:'post',
+      //data: {'toolId':toolId},
+      dataType:'JSON',
+      headers:{ticket: getTicket()},
+      success: function (res) {
+        loginInterceptor(res.code);
+        if(res.code='200') {
+          //初始化下拉前，先清空之前的
+          $("#tool-select-" + id).children().remove();
+          var data = res.data;
+          $("#tool-select-" + id).append('<option value="">工具</option>');
+          for (var i in data) {
+            $("#tool-select-" + id).append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+          }
+        }
+      }
+    });
+  }
+  function toolSelectChange(id){
+    //alert(1111);
+    var selectToolId = $("#tool-select-" + id).children('option:selected').val();
+    initToolOutputSelect(selectToolId,id);
+  }
+
+  function initToolOutputSelect(toolId,id){
+    //alert(toolId+","+id);
+    $.ajax({
+      //拼接下拉选项
+      url:serviceUrl+'/tool/output/list',
+      method:'post',
+      data: {'toolId':toolId},
+      dataType:'JSON',
+      headers:{ticket: getTicket()},
+      success: function (res) {
+        loginInterceptor(res.code);
+        if(res.code='200') {
+          //初始化下拉前，先清空之前的
+          $("#output-select-" + id).children().remove();
+          var data = res.data;
+          $("#output-select-" + id).append('<option value="">輸出項</option>');
+          for (var i in data) {
+            $("#output-select-" + id).append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+          }
+        }
+      }
+    });
+  }
+
+
   $(function(){
     //$('#my-link').panelslider();
     $('#my-link').panelslider({side: 'right', clickClose: true, duration: 200 });
@@ -354,17 +415,19 @@
         }
       });
       //源码修改  关闭右边滑动面板时候，清除内容
-      var params = [];
+      //var params = [];
       /*params.push({
         id: $('#id').val(),
         toolId: $('#toolId').val(),
         value:$('value').val()
       });*/
       var params = [];
+      var toolId = null;
       $("div[id^='flow-param-']").each(function(){
         var param = {};
 
         param.id = $(this).find("input[id^='id-']").val();
+        toolId = $(this).find("input[id^='toolId-']").val();
         param.toolId = $(this).find("input[id^='toolId-']").val();
         param.value = $(this).find("input[id^='value-']").val();
         param.name = $(this).find("label[id^='name-']").html().replace(":","");
@@ -372,7 +435,7 @@
         params.push(param);
       });
       //tool-261:[{"id":"54","toolId":"271","value":"HaplotypeCaller","name":"method"}]
-      localStorage.setItem("tool-"+params[0].toolId,JSON.stringify(params));
+      localStorage.setItem("tool-"+toolId,JSON.stringify(params));
       //alert(JSON.stringify(params));
       $('#param-content').children().remove();
 
@@ -385,15 +448,15 @@
 
         rela.busiId = $(this).find("input[id^='id-']").val();
         rela.toolId = $(this).find("input[id^='toolId-']").val();
-        rela.relaToolId = $("#tool-select-" + rela.id).children('option:selected').val();
-        rela.relaBusiId = $("#output-select-" + rela.id).children('option:selected').val();
+        rela.relaToolId = $("#tool-select-" + rela.busiId).children('option:selected').val();
+        rela.relaBusiId = $("#output-select-" + rela.busiId).children('option:selected').val();
 
         relas.push(rela);
       });
 
       localStorage.setItem("tool-rela-"+relas[0].toolId,JSON.stringify(relas));
       alert(JSON.stringify(relas));
-      $('#param-content').children().remove();
+      $('#rela-content').children().remove();
     }
 
     $('#diagramContainer-control')
