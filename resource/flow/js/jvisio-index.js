@@ -58,6 +58,7 @@
 	  //alert(dataObj.id);
 	  loadParam(ui.draggable[0].id);
 	  loadRela(ui.draggable[0].id);
+	  loadNodeInfo(ui.draggable[0].id);
 	  showRightArea();
 	dataObj.top = top;
     dataObj.left = left;//$('#diagramContainer-left').outerWidth();
@@ -136,6 +137,7 @@
 				//loadParam(id.replace('node-',''));
 				loadParam(id.split("-")[1]);
 				loadRela(id.split("-")[1]);
+				loadNodeInfo(id.split("-")[1]);
 				showRightArea();
 			});
 
@@ -143,6 +145,13 @@
 
   function showRightArea(){
 	  $('#my-link').trigger("click");
+  }
+
+  function loadNodeInfo(toolId){
+	  var str = localStorage.getItem("node-"+toolId);
+	  if(str){
+		  $('#node-alias').val(localStorage.getItem("node-"+toolId));
+	  }
   }
 
   function loadRela(toolId){
@@ -156,17 +165,34 @@
 			  loginInterceptor(res.code);
 			  if (res.code = '200') {
 				  console.log(res);
+
+				  //初始化tool-select
+				  var option = "";
+				  $("#diagramContainer-main .jnode-panel").each(function (idx, elem) {
+					  var $elem = $(elem);
+					  console.log($elem);
+					  var tId = $elem.attr('id').split("-")[1];
+				  	  if(toolId != tId) {
+						  var value = localStorage.getItem("node-" + tId);
+						  if (value != null && value != '') {
+							  option += '<option value="' + tId + '">' + value + '</option>';
+						  }
+					  }
+				  });
+
 				  $(res.data).each(function () {
 					  $("#rela-content").append(
 					  	  "<div id=\"flow-rela-"+this.id+"\">"+
 						  "<input type=\"hidden\" id=\"id-" + this.id + "\" value=\"" + this.id + "\" />" +
 						  "<input type=\"hidden\" id=\"toolId-" + this.id + "\" value=\"" + this.toolId + "\" />" +
 						  "<label class=\"select-label\">"+this.name+":</label>\n" +
-						  "                <select class=\"input-content select-content\" onChange=\"toolSelectChange("+this.id+")\" onClick=\"initToolSelect("+this.id+");\" id=\"tool-select-"+this.id+"\">\n" +
-						  "                  <option value =\"-1\">工具</option>\n" +
+						  "                <select class=\"input-content select-content\" onChange=\"toolSelectChange("+this.id+")\" id=\"tool-select-"+this.id+"\">\n" +
+						  "                  <option value =\"-1\">选择工具</option>\n" +
+						  option+
+
 						  "                </select>\n" +
 						  "                <select class=\"input-content select-content\" id=\"output-select-"+this.id+"\">\n" +
-						  "                  <option value =\"-1\">輸出項</option>\n" +
+						  "                  <option value =\"-1\">选择輸出項</option>\n" +
 						  "                </select>\n" +
 						  "</div>"
 					  );
@@ -342,6 +368,7 @@
 			var blockContent = $elem.children('.node-text').html();
 			nodes.push({
 				nodeId: nodeId,
+				alias:localStorage.getItem("node-"+nodeId.split('-')[1]),
 				blockContent: blockContent,
 				type: $elem.data("type"),
 				blockX: parseInt($elem.css("left"), 10),
