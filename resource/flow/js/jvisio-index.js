@@ -54,10 +54,11 @@
     var top = parseInt(ui.offset.top - $(obj).offset().top);
 	console.info("dd:"+ui.draggable[0].id);
 	//dataObj.id = uuid.v1();
-	  dataObj.id = 'node-'+ui.draggable[0].id+"-"+uuid.v1().replace(new RegExp("-","g"),"");
+	  var nodeUuid = uuid.v1().replace(new RegExp("-","g"),"");
+	  dataObj.id = 'node-'+ui.draggable[0].id+"-"+nodeUuid;
 	  //alert(dataObj.id);
 	  loadParam(ui.draggable[0].id);
-	  loadRela(ui.draggable[0].id);
+	  loadRela(ui.draggable[0].id,nodeUuid);
 	  loadNodeInfo(ui.draggable[0].id);
 	  showRightArea();
 	dataObj.top = top;
@@ -136,7 +137,7 @@
 				var text = $(this).text();
 				//loadParam(id.replace('node-',''));
 				loadParam(id.split("-")[1]);
-				loadRela(id.split("-")[1]);
+				loadRela(id.split("-")[1],id.split("-")[2]);
 				loadNodeInfo(id.split("-")[1]);
 				showRightArea();
 			});
@@ -154,7 +155,41 @@
 	  }
   }
 
-  function loadRela(toolId){
+  function initOption(toolId,id){
+	  var str = localStorage.getItem("tool-rela-"+toolId);
+	  var relaJson = JSON.parse(str);
+
+	  //初始化tool-select
+	  var option = "";
+	  $("#diagramContainer-main .jnode-panel").each(function (idx, elem) {
+		  var $elem = $(elem);
+		  console.log($elem);
+		  var relaToolId = $elem.attr('id').split("-")[1];
+		  var relaUuid = $elem.attr('id').split("-")[2];
+		  if(toolId != relaToolId) {
+			  var alias = localStorage.getItem("node-" + relaToolId);
+			  if (alias != null && alias != '') {
+				  //option += '<option  value="' + relaUuid+"#"+ relaToolId + '">' + alias + '</option>';
+				  var tmp=  '<option  value="' + relaUuid+"#"+ relaToolId + '">' + alias + '</option>';
+				  //初始化关联工具下拉
+				  if(relaJson){
+					  $.each(relaJson,function(index,val) {
+						  if (val.toolId == toolId
+							  && val.busiId == id
+							  //&& val.relaUuid == relaUuid  每次点新增工作流，节点的uuid是变化的，所以导致新拖入的时候，永远不能初始化
+							  && val.relaToolId == relaToolId) {
+							  tmp = '<option selected value="' + relaUuid+"#"+ relaToolId + '">' + alias + '</option>';
+						  }
+					  });
+				  }
+				  option += tmp;
+			  }
+		  }
+	  });
+	  return option;
+  }
+
+  function loadRela(toolId,uuid){
 	  $.ajax({
 		  url: serviceUrl+'/tool/input/list',
 		  method: 'post',
@@ -166,37 +201,45 @@
 			  if (res.code = '200') {
 				  console.log(res);
 
+
 				  //初始化tool-select
-				  var option = "";
+				  /*var option = "";
 				  $("#diagramContainer-main .jnode-panel").each(function (idx, elem) {
 					  var $elem = $(elem);
 					  console.log($elem);
-					  var tId = $elem.attr('id').split("-")[1];
-				  	  if(toolId != tId) {
-						  var value = localStorage.getItem("node-" + tId);
-						  if (value != null && value != '') {
-							  option += '<option value="' + tId + '">' + value + '</option>';
+					  var relaToolId = $elem.attr('id').split("-")[1];
+					  var relaUuid = $elem.attr('id').split("-")[2];
+				  	  if(toolId != relaToolId) {
+						  var alias = localStorage.getItem("node-" + relaToolId);
+						  if (alias != null && alias != '') {
+							  option += '<option value="' + relaUuid+"#"+ relaToolId + '">' + alias + '</option>';
 						  }
 					  }
-				  });
+				  });*/
 
 				  $(res.data).each(function () {
 					  $("#rela-content").append(
 					  	  "<div id=\"flow-rela-"+this.id+"\">"+
 						  "<input type=\"hidden\" id=\"id-" + this.id + "\" value=\"" + this.id + "\" />" +
+						  "<input type=\"hidden\" id=\"uuid-" + uuid + "\" value=\"" + uuid + "\" />" +
 						  "<input type=\"hidden\" id=\"toolId-" + this.id + "\" value=\"" + this.toolId + "\" />" +
 						  "<label class=\"select-label\">"+this.name+":</label>\n" +
-						  "                <select class=\"input-content select-content\" onChange=\"toolSelectChange("+this.id+")\" id=\"tool-select-"+this.id+"\">\n" +
-						  "                  <option value =\"-1\">选择工具</option>\n" +
-						  option+
+						  "                <select class=\"input-content select-content\" onChange=\"toolSelectChange("+this.toolId+","+this.id+")\" id=\"tool-select-"+this.id+"\">\n" +
+						  "                  <option value =\"\">选择工具</option>\n" +
+						  //option+
+						  initOption(this.toolId,this.id)+
 
 						  "                </select>\n" +
 						  "                <select class=\"input-content select-content\" id=\"output-select-"+this.id+"\">\n" +
-						  "                  <option value =\"-1\">选择輸出項</option>\n" +
+						  "                  <option value =\"\">选择輸出項</option>\n" +
 						  "                </select>\n" +
 						  "</div>"
 					  );
+					  //初始化关联输出项下拉
+					  toolSelectChange(this.toolId,this.id);
 				  });
+
+
 			  } else {
 				  alert(res.msg);
 			  }

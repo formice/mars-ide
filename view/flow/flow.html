@@ -331,13 +331,18 @@
 
 
   }
-  function toolSelectChange(id){
+  function toolSelectChange(currentToolId,id){
     //alert(1111);
     var selectToolId = $("#tool-select-" + id).children('option:selected').val();
-    initToolOutputSelect(selectToolId,id);
+    if(selectToolId != '') {
+      initToolOutputSelect(currentToolId,selectToolId.split('#')[1], id);
+    }else{
+      initToolOutputSelect(currentToolId,-1, id);
+    }
   }
 
-  function initToolOutputSelect(toolId,id){
+  function initToolOutputSelect(currentToolId,toolId,id){
+    //alert("ss:"+toolId);
     //alert(toolId+","+id);
     //初始化下拉前，先清空之前的
     $("#output-select-" + id).children().remove();
@@ -353,8 +358,23 @@
         loginInterceptor(res.code);
         if(res.code='200') {
           var data = res.data;
+
+          var str = localStorage.getItem("tool-rela-"+currentToolId);
+          var relaJson = JSON.parse(str);
           for (var i in data) {
-            $("#output-select-" + id).append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            //$("#output-select-" + id).append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            var tmp=  '<option value="' + data[i].id + '">' + data[i].name + '</option>'
+            //初始化关联输出项下拉
+            if(relaJson){
+              $.each(relaJson,function(index,val) {
+                if (val.toolId == currentToolId
+                        && val.busiId == id
+                        && val.relaBusiId == data[i].id) {
+                  tmp = '<option selected value="' + data[i].id + '">' + data[i].name + '</option>'
+                }
+              });
+            }
+            $("#output-select-" + id).append(tmp)
           }
         }
       }
@@ -443,13 +463,18 @@
       //tool-261:[{}]
       //var relas = [輸入項ID，工具ID，關聯工具ID，關聯輸出項ID];
       var relas =[];
-      $("div[id^='flow-rela-']").each(function(){
+      $("div[id^='flow-rela-']").each(function() {
         var rela = {};
 
         rela.busiId = $(this).find("input[id^='id-']").val();
+        rela.uuid = $(this).find("input[id^='uuid-']").val();
         toolId = $(this).find("input[id^='toolId-']").val();
         rela.toolId = $(this).find("input[id^='toolId-']").val();
-        rela.relaToolId = $("#tool-select-" + rela.busiId).children('option:selected').val();
+        var s = $("#tool-select-" + rela.busiId).children('option:selected').val();
+        if (s != '') {
+         rela.relaUuid = s.split("#")[0];
+         rela.relaToolId = s.split("#")[1];
+        }
         rela.relaBusiId = $("#output-select-" + rela.busiId).children('option:selected').val();
 
         relas.push(rela);
