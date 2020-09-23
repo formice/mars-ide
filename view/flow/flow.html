@@ -463,10 +463,12 @@
       //tool-261:[{}]
       //var relas = [輸入項ID，工具ID，關聯工具ID，關聯輸出項ID];
       var relas =[];
+      var uuid = null;
       $("div[id^='flow-rela-']").each(function() {
         var rela = {};
 
         rela.busiId = $(this).find("input[id^='id-']").val();
+        uuid = $(this).find("input[id^='uuid-']").val();
         rela.uuid = $(this).find("input[id^='uuid-']").val();
         toolId = $(this).find("input[id^='toolId-']").val();
         rela.toolId = $(this).find("input[id^='toolId-']").val();
@@ -484,8 +486,31 @@
       alert(JSON.stringify(relas));
       $('#rela-content').children().remove();
 
-      //设置节点信息
-      localStorage.setItem("node-"+toolId,$('#node-alias').val());
+      //设置节点别名,如果用户没有设置 就用工具的名称
+      if($('#node-alias').val() == ''){
+        $.ajax({
+          url: serviceUrl+'/tool/'+toolId,
+          method: 'post',
+          //data: {"toolId": toolId},
+          dataType: 'JSON',
+          headers:{ticket: getTicket()},
+          success: function (res) {
+            loginInterceptor(res.code);
+            if (res.code = '200') {
+              console.log(res);
+              localStorage.setItem("node-alias-"+uuid,res.data.name);
+            } else {
+              alert(res.msg);
+            }
+          },
+          error: function (res) {
+
+          }
+        });
+      }else{
+        localStorage.setItem("node-alias-"+uuid,$('#node-alias').val());
+      }
+
       $('#node-alias').val('');
     }
 

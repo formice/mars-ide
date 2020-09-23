@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>富文本编辑器</title>
+  <script type="text/javascript" src="../../resource/common/constant.js"></script>
+	<link rel="stylesheet" href="../../component/layui/css/layui.css" />
+	<link rel="stylesheet" href="../../admin/css/pearForm.css" />
+    <script type="text/javascript" src="../../resource/common/base.js"></script>
+  <style>
+    body{margin: 10px;
+	background-color: whitesmoke;}
+
+    .layui-col-md6 {
+      width: 100%;
+    }
+
+    .ef-node-form-header {
+      height: 32px;
+      border-top: 1px solid #dce3e8;
+      border-bottom: 1px solid #dce3e8;
+      background: #f1f3f4;
+      color: #000;
+      line-height: 32px;
+      padding-left: 12px;
+      font-size: 14px;
+      margin-left:2px;
+      margin-right: 2px;
+    }
+
+    .layui-input {
+      -webkit-appearance: none;
+      background-color: #fff;
+      background-image: none;
+      border-radius: 4px;
+      border: 1px solid #dcdfe6;
+      box-sizing: border-box;
+      color: #606266;
+      display: inline-block;
+      font-size: inherit;
+      height: 40px;
+      line-height: 40px;
+      outline: none;
+      padding: 0 15px;
+      transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+      width: 80%;
+    }
+  </style>
+</head>
+<body>
+  <div >
+    <div class="layui-row layui-col-space15">
+      <form class="layui-form" action="" onSubmit="return false;">
+      <div class="layui-col-md6" id="card-tool">
+        <div class="layui-card">
+          <!--<div class="layui-card-header">名称：</div>-->
+          <div class="layui-card-body layui-row layui-col-space10">
+            <div class="layui-col-lg6">
+              <label class="layui-form-label">任务名称：</label>
+              <div class="layui-input-block">
+                <input type="text" id="name" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-card">
+          <div class="ef-node-form-header">输入</div>
+          <div class="layui-card-body">
+              <div class="layui-row layui-col-space10 layui-form-item">
+                <div class="layui-col-lg6">
+                  <label class="layui-form-label">员工姓名1：</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="fullname" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+
+                <div class="layui-col-lg6">
+                  <label class="layui-form-label">员工姓名2：</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="fullname" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+              </div>
+
+          </div>
+
+          <div class="ef-node-form-header">输出</div>
+          <div class="layui-card-body">
+              <div class="layui-row layui-col-space10 layui-form-item">
+                <div class="layui-col-lg6">
+                  <label class="layui-form-label">员工姓名：</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="fullname" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+
+
+      </div>
+      </form>
+    </div>
+  </div>
+ 
+<script src="../../component/layui/layui.js"></script>
+<script>
+
+    layui.use(['util', 'layer','form','pearTab','element'], function () {
+        
+
+        var util = layui.util;
+
+        var form = layui.form;
+
+        var $ = layui.jquery;
+
+        var pearTab = layui.pearTab;
+
+        var element = layui.element;
+
+        /*var edit = tinymce.render({
+            elem: "#edit"
+            , height: 400
+        });*/
+
+        util.event('lay-event', {
+            getContent: function () {
+                console.log(edit.getContent())
+                layer.msg("展开控制台查看")
+            }
+        });
+
+      loadToolConfig();
+
+      function loadToolConfig(){
+        //初始化每个工具的参数
+        $.ajax({
+          url:serviceUrl+'/flow/tool/config?flowId='+getQueryVariable("flowId"),
+          method:'post',
+          //data:data.field,
+          dataType:'JSON',
+          headers:{ticket: getTicket()},
+          success:function(res){
+            //loginInterceptor(res.code);
+            if(res.code='200'){
+              console.log(res);
+
+              var data = res.data;
+              //遍历工具
+              $.each(data,function(key,values){
+                var toolArr = key.split("@*-*@");
+                var toolId = toolArr[0];
+                var toolName = toolArr[1];
+                $('#card-tool').append("<div class=\"layui-card\" id=\"layui-card-"+toolId+"\">"+
+                        "<div class=\"layui-card-header\">工具名称："+toolName+"</div>");
+                //遍历参数类别
+                $.each(values,function(key,value) {
+                  var cate = key;
+                  if (cate == 'inputs') {
+                    cate = "输入";
+                  } else if (cate == 'outputs') {
+                    cate = "输出";
+                  } else if (cate == 'params') {
+                    return;
+                  }
+
+                  //输入或者输出下面，存在具体的项，就展示
+                  if (value.length > 0) {
+                    $('#card-tool >  #layui-card-' + toolId + '').append("<div class=\"ef-node-form-header\">" + cate + "</div>");
+                    $('#card-tool >  #layui-card-' + toolId + '').append("<div class=\"layui-card-body\" id=\"layui-card-body-" + toolId + "-" + cate + "\">\n");
+                    $('#card-tool >  #layui-card-' + toolId + ' > #layui-card-body-' + toolId + '-' + cate).append(
+                            "              <div class=\"layui-row layui-col-space10 layui-form-item\" id=\"layui-row-" + toolId + "\">\n");
+                    //遍历具体项
+                    for (var index in value) {
+                      var name = value[index].name;
+                      var id = value[index].id;
+                      var defaultValue = value[index].defaultValue == undefined ? '' : value[index].defaultValue;
+                      var type = 0;
+                      if (cate == '输入') {
+                        type = 16;
+                      } else if (cate == '输出') {
+                        type = 17;
+                      } else if (cate == 'params') {
+                        type = 18;
+                      }
+                      if (type == 16) {
+                        $('#card-tool >  #layui-card-' + toolId + ' > #layui-card-body-' + toolId + '-' + cate + ' > #layui-row-' + toolId + '').append(
+                                "                <div id=\"run-" + id + "\" class=\"layui-col-lg6\">\n" +
+                                "                 <input type=\"hidden\" id=\"run-id-" + id + "\" value=\"" + id + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" >\n" +
+                                "                 <input type=\"hidden\" id=\"run-toolId-" + toolId + "\" value=\"" + toolId + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                                "                 <input type=\"hidden\" id=\"run-type-" + type + "\" value=\"" + type + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                                "                  <label class=\"layui-form-label\">" + name + "：</label>\n" +
+                                "                  <div class=\"layui-input-block\">\n" +
+                                "                    <input type=\"text\" id=\"run-value-" + id + "\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "                    <input type=\"checkbox\" id=\"run-chk-" + id + "\" name=\"marriage\" lay-skin=\"switch\" lay-text=\"本地|远程\" checked>" +
+                                "                  </div>\n" +
+
+                                "                </div>\n"
+                        );
+                      } else if (type == 17) {//输出
+                        $('#card-tool >  #layui-card-' + toolId + ' > #layui-card-body-' + toolId + '-' + cate + ' > #layui-row-' + toolId + '').append(
+                                "                <div id=\"run-" + id + "\" class=\"layui-col-lg6\">\n" +
+                                "                 <input type=\"hidden\" id=\"run-id-" + id + "\" value=\"" + id + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" >\n" +
+                                "                 <input type=\"hidden\" id=\"run-toolId-" + toolId + "\" value=\"" + toolId + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                                "                 <input type=\"hidden\" id=\"run-type-" + type + "\" value=\"" + type + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
+                                "                  <label class=\"layui-form-label\">" + name + "：</label>\n" +
+                                "                  <div class=\"layui-input-block\">\n" +
+                                "                    <input type=\"text\" id=\"run-value-" + id + "\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
+                                "                  </div>\n" +
+
+                                "                </div>\n"
+                        );
+                      }
+                    }
+                  }
+                  $('#card-tool >  #layui-card-'+toolId+'').append("</div>");
+                  $('#card-tool >  #layui-card-'+toolId+' > #layui-card-body-'+toolId+'-'+cate).append("</div>");
+                });
+                $('#card-tool').append("</div>");
+              });
+
+              $('#card-tool').append("<div class=\"layui-form-item\" style=\"text-align: center\">\n" +
+                      "          <div class=\"layui-input-block\">\n" +
+                      "            <button id=\"run1\" class=\"layui-btn layui-btn-normal\" lay-submit lay-filter=\"component-form-element\">立即运行</button>\n" +
+                      "          </div>\n" +
+                      "        </div>");
+              //动态生成的html，必须render一下，样式才能生效
+              layui.use('form',function(){
+                  var form = layui.form;
+                  form.render();
+              })
+
+            } else {
+              alert(res.msg);
+            }
+          },
+          error:function (data) {
+
+          }
+        }) ;
+      }
+
+      $("body").on('click', '#run1',function () {
+            var jsonObj = {};
+            jsonObj.name = $('#name').val();
+            jsonObj.flowId = getQueryVariable("flowId");
+
+
+            //构建参数
+            var runArr = [];
+            $("div[id^='run-']").each(function () {
+            var run = {};
+
+            run.id = $(this).find("input[id^='run-id-']").val();
+            run.toolId = $(this).find("input[id^='run-toolId-']").val();
+            run.type = $(this).find("input[id^='run-type-']").val();
+            run.value = $(this).find("input[id^='run-value-']").val();
+
+            //是否是从远程网盘 获取文件
+            var chk = $(this).find('input[id^=\'run-chk-\']').next().attr('class');
+            if(chk == 'layui-unselect layui-form-switch'){
+              run.isRemote = 1;
+            }else{
+              run.isRemote = 0;
+            }
+
+            runArr.push(run);
+          });
+          jsonObj.run = runArr;
+          alert(JSON.stringify(jsonObj));
+
+
+
+
+          $.ajax({
+            url: serviceUrl+'/flow/run',
+            method: 'post',
+            contentType: 'application/json', //需要加contentType
+            data: JSON.stringify(jsonObj),
+            dataType: 'JSON',
+            headers:{ticket: getTicket()},
+            success: function (res) {
+              loginInterceptor(res.code);
+              if (res.code = '200') {
+                console.log(res);
+                //发异步，把数据提交给php
+                layer.alert("增加成功", {
+                          icon: 6
+                        },
+                        function () {
+                          var url = "view/task/task-list.html";
+                          //window.location.href = url;
+                          //pearTab.addTabOnly({id:111,title:"个人信息",url:url,close:true})
+                          //pearTab.addTabOnlyByElem("content",{id:3,title:"任务",url:url,close:true});
+                          //element.tabAdd("content",{id:3,title:"任务",content: '<iframe data-frameid="'+3+'" scrolling="no" frameborder="0" src="'+url+'" style="width:100%;"></iframe>'});
+                          //element.render('tab');
+                          //window.parent.layui.element.tabAdd("content",{id:3,title:"任务",content: '<iframe data-frameid="'+3+'" scrolling="auto" frameborder="0" src="'+'view/task/task-list.html'+'" style="width:100%;height: 100%"></iframe>'});
+                          //window.parent.layui.element.tabChange("content",3);
+                          //1.生成任务 tab
+                          addTab(3,'任务',url);
+                          //2.回到工作流列表页面  或者关闭 当前tab
+                          window.location.href = "flow-list.html";
+                          //closeTab(4);
+                        });
+              } else {
+                alert(res.msg);
+              }
+            },
+            error: function (data) {
+
+            }
+          });
+      });
+
+      $("body").on('click', 'input[id^=\'run-value-\']',function () {
+        var type = $(this).parent().parent().find('input[id^=\'run-type-\']').val();
+        var chk = $(this).parent().parent().find('input[id^=\'run-chk-\']').next().attr('class');
+
+        //是输入项 && 切换成"远程" 才允许加载网盘文件
+        //layui-unselect layui-form-switch  远程
+        //layui-unselect layui-form-switch layui-form-onswitch 本地
+        if(type == 16 && chk == 'layui-unselect layui-form-switch') {
+            openFileChooseWin($(this));
+        }
+      });
+
+      function openFileChooseWin(o) {
+        layer.open({
+          type: 2 //此处以iframe举例
+          , title: '选择文件'
+          //, area: ['800px', '600px']
+          ,area: ['100%', '100%']
+          , shade: 0
+          , maxmin: true
+          , offset: 'auto'//显示坐标-auto居中
+          //, content: "http://localhost:63342/mars-ide/view/pan/views/file-choose.html"
+          , content: "../pan/views/file-choose.html"
+          , btn: ['确认']
+          , yes: function (index) {
+            //alert(1+":"+index);
+            var res = window["layui-layer-iframe" + index].callback();
+            //alert(res);
+            o.parent().parent().find('input[id^=\'run-value-\']').val(res);
+              layer.close()
+              layer.closeAll();
+          }
+          , zIndex: layer.zIndex //重点1
+          , success: function (index,layero) {
+            //layer.setTop(layero); //重点2
+          }
+          ,cancel:function(index){
+            alert(3);
+          }
+          ,end: function () {
+            //alert(2);
+            //alert($(window.parent.document).find("#window-return").val());
+            //当点击‘选择城市’按钮的时候，获取弹出层返回的值
+            //alert(2+":"+index);
+            //var index = 2;
+            //var res = window["layui-layer-iframe" + index].callback();
+            //alert(res);
+            //window.location.reload();
+          }
+        });
+      }
+
+
+    });
+</script>
+</body>
+</html>        

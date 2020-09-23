@@ -59,7 +59,7 @@
 	  //alert(dataObj.id);
 	  loadParam(ui.draggable[0].id);
 	  loadRela(ui.draggable[0].id,nodeUuid);
-	  loadNodeInfo(ui.draggable[0].id);
+	  loadNodeInfo(nodeUuid);
 	  showRightArea();
 	dataObj.top = top;
     dataObj.left = left;//$('#diagramContainer-left').outerWidth();
@@ -138,7 +138,7 @@
 				//loadParam(id.replace('node-',''));
 				loadParam(id.split("-")[1]);
 				loadRela(id.split("-")[1],id.split("-")[2]);
-				loadNodeInfo(id.split("-")[1]);
+				loadNodeInfo(id.split("-")[2]);
 				showRightArea();
 			});
 
@@ -149,9 +149,10 @@
   }
 
   function loadNodeInfo(toolId){
-	  var str = localStorage.getItem("node-"+toolId);
+  	alert('uuid:'+toolId);
+	  var str = localStorage.getItem("node-alias-"+toolId);
 	  if(str){
-		  $('#node-alias').val(localStorage.getItem("node-"+toolId));
+		  $('#node-alias').val(str);
 	  }
   }
 
@@ -167,7 +168,7 @@
 		  var relaToolId = $elem.attr('id').split("-")[1];
 		  var relaUuid = $elem.attr('id').split("-")[2];
 		  if(toolId != relaToolId) {
-			  var alias = localStorage.getItem("node-" + relaToolId);
+			  var alias = localStorage.getItem("node-alias-" + relaUuid);
 			  if (alias != null && alias != '') {
 				  //option += '<option  value="' + relaUuid+"#"+ relaToolId + '">' + alias + '</option>';
 				  var tmp=  '<option  value="' + relaUuid+"#"+ relaToolId + '">' + alias + '</option>';
@@ -176,7 +177,7 @@
 					  $.each(relaJson,function(index,val) {
 						  if (val.toolId == toolId
 							  && val.busiId == id
-							  //&& val.relaUuid == relaUuid  每次点新增工作流，节点的uuid是变化的，所以导致新拖入的时候，永远不能初始化
+							  && val.relaUuid == relaUuid  //每次点新增工作流，节点的uuid是变化的，所以导致新拖入的时候，永远不能初始化
 							  && val.relaToolId == relaToolId) {
 							  tmp = '<option selected value="' + relaUuid+"#"+ relaToolId + '">' + alias + '</option>';
 						  }
@@ -438,6 +439,7 @@
 		console.log(lineDescs);
 
 		var params = [];
+		var relas = [];
 		$.each(nodes,function(index,val){
 			//alert(val.nodeId.replace("node-",""));
 
@@ -445,6 +447,11 @@
 			var str = localStorage.getItem("tool-"+val.nodeId.split("-")[1]);
 			if(str != null && str !='null' && str !='') {
 				params = params.concat(JSON.parse(str));
+			}
+
+			str = localStorage.getItem("tool-rela-"+val.nodeId.split("-")[1]);
+			if(str != null && str !='null' && str !='') {
+				relas = relas.concat(JSON.parse(str));
 			}
 		});
 		//alert(JSON.stringify(params));
@@ -454,7 +461,8 @@
 			desc:$('#flow-desc').val(),
 			lines:lines,
 			nodes:nodes,
-			params:params
+			params:params,
+			relas : relas
 			//lineDescs:lineDescs
 		}
 		console.log(JSON.stringify(serliza));
