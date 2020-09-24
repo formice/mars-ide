@@ -67,7 +67,7 @@
         <div class="layui-card">
           <div class="ef-node-form-header">输入</div>
           <div class="layui-card-body">
-              <div class="layui-row layui-col-space10 layui-form-item">
+              <div class="layui-row layui-col-space10 layui-form-item" id="input-box">
                 <div class="layui-col-lg6">
                   <label class="layui-form-label">员工姓名1：</label>
                   <div class="layui-input-block">
@@ -133,12 +133,14 @@
             }
         });
 
-      loadToolConfig();
+      //loadToolConfig();
 
-      function loadToolConfig(){
+
+      function loadFlowInputs(){
+        var flowId = getQueryVariable("flowId");
         //初始化每个工具的参数
         $.ajax({
-          url:serviceUrl+'/flow/tool/config?flowId='+getQueryVariable("flowId"),
+          url:serviceUrl+'/flow/'+flowId+'/inputs',
           method:'post',
           //data:data.field,
           dataType:'JSON',
@@ -148,78 +150,17 @@
             if(res.code='200'){
               console.log(res);
 
-              var data = res.data;
               //遍历工具
-              $.each(data,function(key,values){
-                var toolArr = key.split("@*-*@");
-                var toolId = toolArr[0];
-                var toolName = toolArr[1];
-                $('#card-tool').append("<div class=\"layui-card\" id=\"layui-card-"+toolId+"\">"+
-                        "<div class=\"layui-card-header\">工具名称："+toolName+"</div>");
-                //遍历参数类别
-                $.each(values,function(key,value) {
-                  var cate = key;
-                  if (cate == 'inputs') {
-                    cate = "输入";
-                  } else if (cate == 'outputs') {
-                    cate = "输出";
-                  } else if (cate == 'params') {
-                    return;
-                  }
+              $(res.data).each(function () {
 
-                  //输入或者输出下面，存在具体的项，就展示
-                  if (value.length > 0) {
-                    $('#card-tool >  #layui-card-' + toolId + '').append("<div class=\"ef-node-form-header\">" + cate + "</div>");
-                    $('#card-tool >  #layui-card-' + toolId + '').append("<div class=\"layui-card-body\" id=\"layui-card-body-" + toolId + "-" + cate + "\">\n");
-                    $('#card-tool >  #layui-card-' + toolId + ' > #layui-card-body-' + toolId + '-' + cate).append(
-                            "              <div class=\"layui-row layui-col-space10 layui-form-item\" id=\"layui-row-" + toolId + "\">\n");
-                    //遍历具体项
-                    for (var index in value) {
-                      var name = value[index].name;
-                      var id = value[index].id;
-                      var defaultValue = value[index].defaultValue == undefined ? '' : value[index].defaultValue;
-                      var type = 0;
-                      if (cate == '输入') {
-                        type = 16;
-                      } else if (cate == '输出') {
-                        type = 17;
-                      } else if (cate == 'params') {
-                        type = 18;
-                      }
-                      if (type == 16) {
-                        $('#card-tool >  #layui-card-' + toolId + ' > #layui-card-body-' + toolId + '-' + cate + ' > #layui-row-' + toolId + '').append(
-                                "                <div id=\"run-" + id + "\" class=\"layui-col-lg6\">\n" +
-                                "                 <input type=\"hidden\" id=\"run-id-" + id + "\" value=\"" + id + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" >\n" +
-                                "                 <input type=\"hidden\" id=\"run-toolId-" + toolId + "\" value=\"" + toolId + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
-                                "                 <input type=\"hidden\" id=\"run-type-" + type + "\" value=\"" + type + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
-                                "                  <label class=\"layui-form-label\">" + name + "：</label>\n" +
-                                "                  <div class=\"layui-input-block\">\n" +
-                                "                    <input type=\"text\" id=\"run-value-" + id + "\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                                "                    <input type=\"checkbox\" id=\"run-chk-" + id + "\" name=\"marriage\" lay-skin=\"switch\" lay-text=\"本地|远程\" checked>" +
-                                "                  </div>\n" +
-
-                                "                </div>\n"
-                        );
-                      } else if (type == 17) {//输出
-                        $('#card-tool >  #layui-card-' + toolId + ' > #layui-card-body-' + toolId + '-' + cate + ' > #layui-row-' + toolId + '').append(
-                                "                <div id=\"run-" + id + "\" class=\"layui-col-lg6\">\n" +
-                                "                 <input type=\"hidden\" id=\"run-id-" + id + "\" value=\"" + id + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\" >\n" +
-                                "                 <input type=\"hidden\" id=\"run-toolId-" + toolId + "\" value=\"" + toolId + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
-                                "                 <input type=\"hidden\" id=\"run-type-" + type + "\" value=\"" + type + "\" required=\"\" lay-verify=\"required\" autocomplete=\"off\">\n" +
-                                "                  <label class=\"layui-form-label\">" + name + "：</label>\n" +
-                                "                  <div class=\"layui-input-block\">\n" +
-                                "                    <input type=\"text\" id=\"run-value-" + id + "\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
-                                "                  </div>\n" +
-
-                                "                </div>\n"
-                        );
-                      }
-                    }
-                  }
-                  $('#card-tool >  #layui-card-'+toolId+'').append("</div>");
-                  $('#card-tool >  #layui-card-'+toolId+' > #layui-card-body-'+toolId+'-'+cate).append("</div>");
-                });
-                $('#card-tool').append("</div>");
+                $('#input-box').append("<div id=\"run-"+this.id+"\" class=\"layui-col-lg6\">\n" +
+                        "                  <label class=\"layui-form-label\">"+this.alias+"：</label>\n" +
+                        "                  <div class=\"layui-input-block\">\n" +
+                        "                     <input type=\"hidden\" id=\"run-nodeId-" + this.id + "\" value=\"" + this.id + "\">\n" +
+                        "                     <input type=\"hidden\" id=\"run-toolId-" + this.id + "\" value=\"" + this.toolId + "\">\n" +
+                        "                    <input type=\"text\" id=\"run-value-" + this.id + "\" lay-verify=\"required\" placeholder=\"\" autocomplete=\"off\" class=\"layui-input\">\n" +
+                        "                  </div>\n" +
+                        "                </div>");
               });
 
               $('#card-tool').append("<div class=\"layui-form-item\" style=\"text-align: center\">\n" +
@@ -252,25 +193,17 @@
             //构建参数
             var runArr = [];
             $("div[id^='run-']").each(function () {
-            var run = {};
-
-            run.id = $(this).find("input[id^='run-id-']").val();
-            run.toolId = $(this).find("input[id^='run-toolId-']").val();
-            run.type = $(this).find("input[id^='run-type-']").val();
-            run.value = $(this).find("input[id^='run-value-']").val();
-
-            //是否是从远程网盘 获取文件
-            var chk = $(this).find('input[id^=\'run-chk-\']').next().attr('class');
-            if(chk == 'layui-unselect layui-form-switch'){
-              run.isRemote = 1;
-            }else{
-              run.isRemote = 0;
-            }
-
-            runArr.push(run);
-          });
-          jsonObj.run = runArr;
-          alert(JSON.stringify(jsonObj));
+                var run = {};
+                //run.id = $(this).find("input[id^='run-id-']").val();
+                run.nodeId = $(this).find("input[id^='run-nodeId-']").val();
+                run.toolId = $(this).find("input[id^='run-toolId-']").val();
+                //run.type = $(this).find("input[id^='run-type-']").val();
+                run.value = $(this).find("input[id^='run-value-']").val();
+                run.isRemote = 1;
+                runArr.push(run);
+              });
+              jsonObj.run = runArr;
+              alert(JSON.stringify(jsonObj));
 
 
 
