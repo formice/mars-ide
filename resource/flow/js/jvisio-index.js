@@ -57,7 +57,7 @@
 	  var nodeUuid = uuid.v1().replace(new RegExp("-","g"),"");
 	  dataObj.id = 'node-'+ui.draggable[0].id+"-"+nodeUuid;
 	  //alert(dataObj.id);
-	  loadParam(ui.draggable[0].id);
+	  loadParam(ui.draggable[0].id,nodeUuid);
 	  loadRela(ui.draggable[0].id,nodeUuid);
 	  loadNodeInfo(nodeUuid);
 	  showRightArea();
@@ -136,7 +136,7 @@
 				//鼠标双击
 				var text = $(this).text();
 				//loadParam(id.replace('node-',''));
-				loadParam(id.split("-")[1]);
+				loadParam(id.split("-")[1],id.split("-")[2]);
 				loadRela(id.split("-")[1],id.split("-")[2]);
 				loadNodeInfo(id.split("-")[2]);
 				showRightArea();
@@ -253,7 +253,7 @@
 
 
 
-  function loadParam(toolId){
+  function loadParam(toolId,uuid){
   	var str = localStorage.getItem("tool-"+toolId);
   	var params = JSON.parse(str);
   	if(params){
@@ -262,6 +262,7 @@
 			$("#param-content").append(
 				"<div id='flow-param-" + val.id + "'>" +
 				"<input type=\"hidden\" id=\"id-" + val.id + "\" value=\"" + val.id + "\" class=\"input-content\" style=\"height:32px\"/>" +
+				"<input type=\"hidden\" id=\"uuid-" + uuid + "\" value=\"" + uuid + "\" />" +
 				"<input type=\"hidden\" id=\"toolId-" + val.id + "\" value=\"" + val.toolId + "\" class=\"input-content\" style=\"height:32px\"/>" +
 				"<label class=\"input-label\" id=\"name-"+val.id+"\">" + val.name + ":</label><input type=\"text\" id=\"value-" + val.id + "\" value=\"" + val.value + "\" class=\"input-content\" style=\"height:32px\"/>" +
 				"</div>"
@@ -289,6 +290,7 @@
 						$("#param-content").append(
 							"<div id='flow-param-" + this.id + "'>" +
 							"<input type=\"hidden\" id=\"id-" + this.id + "\" value=\"" + this.id + "\" class=\"input-content\" style=\"height:32px\"/>" +
+							"<input type=\"hidden\" id=\"uuid-" + uuid + "\" value=\"" + uuid + "\" />" +
 							"<input type=\"hidden\" id=\"toolId-" + this.id + "\" value=\"" + this.toolId + "\" class=\"input-content\" style=\"height:32px\"/>" +
 							"<label class=\"input-label\" id=\"name-"+this.id+"\">" + this.name + ":</label><input type=\"text\" id=\"value-" + this.id + "\" value=\"" + this.defaultValue + "\" class=\"input-content\" style=\"height:32px\"/>" +
 							"</div>"
@@ -412,7 +414,7 @@
 			var blockContent = $elem.children('.node-text').html();
 			nodes.push({
 				nodeId: nodeId,
-				alias:localStorage.getItem("node-"+nodeId.split('-')[1]),
+				alias:localStorage.getItem("node-alias-"+nodeId.split('-')[2]),
 				blockContent: blockContent,
 				type: $elem.data("type"),
 				blockX: parseInt($elem.css("left"), 10),
