@@ -7,7 +7,6 @@
 		<link rel="stylesheet" href="../../admin/css/pearStep.css" />
 		<link rel="stylesheet" href="../../admin/css/pearForm.css" />
 		<link rel="stylesheet" href="../../admin/css/pearButton.css"/>
-		<link rel="stylesheet" href="../../admin/css/pearSelect.css"/>
 		<script type="text/javascript" src="../../resource/common/constant.js"></script>
 		<script type="text/javascript" src="../../resource/common/base.js"></script>
 		<style>
@@ -132,21 +131,21 @@
 
 										<label for="name" class="layui-form-label">
 											<span class="x-red">*</span>名称</label>
-										<div class="layui-input-inline" style="width:150px;">
+										<div class="layui-input-inline" style="width:100px;">
 											<input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
 
 										<label for="minNum" class="layui-form-label">
 											<span class="x-red">*</span>最小个数</label>
-										<div class="layui-input-inline" style="width:150px;">
+										<div class="layui-input-inline" style="width:100px;">
 											<input type="text" id="minNum" name="minNum" required="" lay-verify="required" class="layui-input"></div>
 
 										<label for="minNum" class="layui-form-label">
 											<span class="x-red">*</span>最大个数</label>
-										<div class="layui-input-inline" style="width:150px;">
+										<div class="layui-input-inline" style="width:100px;">
 											<input type="text" id="maxNum" name="maxNum" required="" lay-verify="required" class="layui-input"></div>
 										<label for="input-type" class="layui-form-label">
 											<span class="x-red">*</span>类型</label>
-										<div class="layui-input-inline" style="width:150px;">
+										<div class="layui-input-inline" style="width:100px;">
 											<select id="input-type" name="type" class="valid">
 											</select>
 										</div>
@@ -170,16 +169,16 @@
 
 										<label for="input-fileFormat" class="layui-form-label">
 											<span class="x-red">*</span>文件格式</label>
-										<div class="layui-input-inline" style="width:150px;">
-											<select id="input-fileFormat" name="fileFormat" xm-select="select" xm-select-skin="normal">
+										<div class="layui-input-inline" style="width:100px;">
+											<select id="input-fileFormat" name="fileFormat" class="valid">
 											</select>
 										</div>
 
 										<label for="desc" class="layui-form-label">
 											<span class="x-red">*</span>描述</label>
-										<div class="layui-input-inline" style="width:150px;">
+										<div class="layui-input-inline" style="width:100px;">
 											<input type="text" id="desc" name="desc" required="" lay-verify="required" class="layui-input"></div>
-										<div class="layui-input-inline" style="width:150px;margin-left:70px">
+										<div class="layui-input-inline" style="width:100px;margin-left:70px">
 											<input type="checkbox" name="isMust" value="1" lay-skin="primary" title="必选项" checked="true">
 										</div>
 									</div>
@@ -235,10 +234,10 @@
 
 		<script src="../../component/layui/layui.js"></script>
 		<script>
-			layui.use(['form', 'pearStep','element','formSelects','code'], function() {
-				var   $ = layui.$, form = layui.form, pearStep = layui.pearStep,formSelects = layui.formSelects;
+			layui.use(['form', 'pearStep','element'], function() {
+				var   $ = layui.$, form = layui.form, pearStep = layui.pearStep;
 				initSelect($ ,form,'input-type','tool_input_and_output_type');
-				initSelect($ ,form,'input-fileFormat','tool_input_and_output_file_format',formSelects);
+				initSelect($ ,form,'input-fileFormat','tool_input_and_output_file_format');
 				initSelect($ ,form,'input-prefixSplitSymbol','tool_input_and_output_prefix_split_symbol');
 				$('#toolId').val(getQueryVariable("toolId"));
 
@@ -383,11 +382,9 @@
 					window.location.href = "step-3.html?toolId="+getQueryVariable("toolId");
 				});
 
-				layui.code();
-
 			});
 
-			function initSelect($,form,ele,group,formSelects){
+			function initSelect($,form,ele,group){
 					$.ajax({
 						//拼接下拉选项
 						url:serviceUrl+'/common/dic/group',
@@ -403,7 +400,6 @@
 									$("#"+ele).append('<option value="' + data[i].code + '">' + data[i].name + '</option>');
 								}
 								form.render('select');
-								formSelects.render('select');
 							}
 						}
 					});
